@@ -1,12 +1,12 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import Signup from "../components/Signup";
+import Navbar from "../components/Navbar.jsx";
+import Signup from "../components/Signup.jsx";
 
-function SignupPage(){
-    return(
+function SignupPage({ role }) {
+    return (
         <div>
-            <Navbar />
-            <Signup Signup_or_Signin={"Sign in"}/>
+            <Navbar/>
+            <Signup  role={role}/>
         </div>
     );
 }

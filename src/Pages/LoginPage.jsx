@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
   const [role, setRole] = useState("eventprovider");
@@ -8,20 +9,15 @@ function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col justify-center">
-      <div className="p-4 mx-auto max-w-screen-md flex-grow">
-        <div className="flex flex-col justify-center">
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">We invest in the world’s potential</h1>
-          <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.</p>
-          <a href="#" className="text-blue-600 dark:text-blue-500 hover:underline font-medium text-lg inline-flex items-center">Read more about our app 
-            <svg className="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-            </svg>
-          </a>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col justify-center items-center">
+      <div className="p-4 mx-auto max-w-screen-lg flex-grow">
+        <div className="flex flex-col justify-center items-center mt-5">
+          <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Welcome to TechCommune</h1>
+          <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400 mt-5">Join our vibrant community of tech enthusiasts, entrepreneurs, and innovators. Let's shape the future through technology together.</p>
         </div>
-        <div className="mt-8 bg-white rounded-lg shadow-xl dark:bg-gray-800">
+        <div className="mt-5 bg-white rounded-lg shadow-xl dark:bg-gray-800">
           <div className="p-8">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Sign in to Flowbite</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Sign in to TechCommune</h2>
             <form className="mt-8 space-y-6" action="#">
               <div className="flex items-center mb-6">
                 <label className="block mb-2 mr-3 mt-2 text-sm font-medium text-gray-900 dark:text-white">Select Role:</label>
@@ -55,7 +51,7 @@ function LoginPage() {
               </div>
               <button type="submit" className="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
               <div className="text-sm font-medium text-gray-900 dark:text-white">
-                Not registered yet? <a className="text-blue-600 hover:underline dark:text-blue-500">Create account</a>
+                Not registered yet? <Link to="/signup" className="text-blue-600 hover:underline dark:text-blue-500">Create account</Link>
               </div>
             </form>
           </div>
