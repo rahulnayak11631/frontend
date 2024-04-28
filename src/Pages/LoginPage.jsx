@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function LoginPage() {
   const [role, setRole] = useState("eventprovider");
-
+  
   const handleRoleChange = (e) => {
     setRole(e.target.value);
   };
 
+  useEffect(() => {
+    console.log(role);
+  }, [role]);
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col justify-center items-center">
       <div className="p-4 mx-auto max-w-screen-lg flex-grow">
@@ -22,7 +25,7 @@ function LoginPage() {
               <div className="flex items-center mb-6">
                 <label className="block mb-2 mr-3 mt-2 text-sm font-medium text-gray-900 dark:text-white">Select Role:</label>
                 <div className="flex items-center space-x-4">
-                  <label className="flex items-center">
+                <label className="flex items-center">
                     <input type="radio" name="role" value="eventprovider" checked={role === "eventprovider"} onChange={handleRoleChange} className="form-radio h-5 w-5 text-blue-600 dark:text-blue-500" />
                     <span className="ml-2 text-sm text-gray-900 dark:text-white">Event Provider</span>
                   </label>

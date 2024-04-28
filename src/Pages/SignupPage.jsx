@@ -1,12 +1,18 @@
 import React from "react";
 import Navbar from "../components/Navbar.jsx";
 import Signup from "../components/Signup.jsx";
+import { useLocation } from "react-router-dom";
 
-function SignupPage({ role }) {
+function SignupPage() {
+  const location = useLocation();
+  const role = location.state?.role; // Access role from state
+  console.log(role);
+
+
     return (
         <div>
             <Navbar/>
-            <Signup  role={role}/>
+            <Signup role={role} />
         </div>
     );
 }
