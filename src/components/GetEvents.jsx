@@ -1,14 +1,12 @@
-// GetEvents.jsx
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-
 function GetEvents() {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get("http://localhost:8090/api/getallevents");
+                const response = await axios.get("http://localhost:8090/api/getallevent");
                 setEvents(response.data);
             } catch (error) {
                 console.error("Error fetching events:", error);
@@ -19,27 +17,22 @@ function GetEvents() {
     }, []);
 
     return (
-        <>
-            <h1>List of Events</h1>
-            <ul>
-                {events.map(event => (
-                    <li key={event.eventId}>
-                        <p>Title: {event.title}</p>
-                        <p>Description: {event.description}</p>
-                        <p>Location: {event.location}</p>
-                        <p>Mode: {event.mode}</p>
-                        <p>Start Time: {event.startTime}</p>
-                        <p>End Time: {event.endTime}</p>
-                        <p>Max Capacity: {event.maxCapacity}</p>
-                        <p>Price: {event.price}</p>
-                        <p>Payment Required: {event.paymentRequired ? 'Yes' : 'No'}</p>
-                        <p>Rating: {event.rating}</p>
-                        <p>Number of Ratings: {event.numberOfRatings}</p>
-                        <p>Rating Sum: {event.ratingSum}</p>
-                    </li>
-                ))}
-            </ul>
-        </>
+        <div className="grid grid-cols-1 mt-5 mx-3 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {events.map(event => (
+                <a key={event.eventId} href="#" className="flex items-center bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                    <img className="object-cover w-48 h-49 rounded-l-lg" src={"src/assets/image-4.jpg"} alt="" />
+                    <div className="flex flex-col p-4">
+                        <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{event.title}</h5>
+                        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{event.description}</p>
+                        <div className="mt-auto">
+                            <p className="text-sm text-gray-500">Location: {event.location}</p>
+                            <p className="text-sm text-gray-500">Start Time: {event.startTime}</p>
+                            <p className="text-sm text-gray-500">End Time: {event.endTime}</p>
+                        </div>
+                    </div>
+                </a>
+            ))}
+        </div>
     );
 }
 

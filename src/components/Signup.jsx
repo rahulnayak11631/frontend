@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import React, { useState } from "react";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { base_url } from "../Backend APi/BaseApi";
+// import base
 
-function Signup({ role }) {
+function Signup() {
   const [fetchedRole, setFetchedRole] = useState(null);
 
-  useEffect(() => {
-    setFetchedRole(role); // Store the passed role
-    console.log("Fetched Role:", fetchedRole); // Log the role after update
-  }, [role]); // Run only when role changes
 
   const [formData, setFormData] = useState({
     email: "",
@@ -21,17 +21,57 @@ function Signup({ role }) {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
-
-  const handleSubmit = (event) => {
+ 
+  
+  const handleSubmit = async (event) => {
+    console.log(Cookies.get("role"));
     event.preventDefault();
     // Prepare data to be submitted
     const data = {
       ...formData,
-      role: role, // Include the selected role in the data
+      role: Cookies.get("role"), // Include the selected role in the data
     };
     // Example: Send data to backend or handle as needed
     console.log("Form data:", data);
-  };
+    console.log(Cookies.get("role"));
+
+    const headers={
+      "role":Cookies.get("role")
+    }
+
+    if (Cookies.get("role")==="user") {
+      
+      const response= await axios.post(`http://localhost:8090/api/adduser`,{
+        userName:data.firstName+" "+data.lastName,
+        email:data.email,
+        password:data.password
+  
+      },{headers})
+      const dataResponse=await response.data
+      if (dataResponse.success) {
+        Cookies.set("token",dataResponse.token)
+      }
+      console.log(dataResponse)
+    }
+
+    if(Cookies.get("role")==="eventprovider")
+    {
+      const response= await axios.post(`http://localhost:8090/api/adduser`,{
+        userName:data.firstName+" "+data.lastName,
+        email:data.email,
+        password:data.password,
+        phoneNumber: data.phone,
+        orgName: data.company
+  
+      },{headers})
+      const dataResponse=await response.data
+      if (dataResponse.success) {
+        Cookies.set("token",dataResponse.token)
+      }
+      console.log(dataResponse)
+    }
+
+  }
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -91,7 +131,7 @@ function Signup({ role }) {
               <div className="relative z-0 w-full mb-5 group">
                 <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} id="floating_last_name" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Last name" required />
               </div>
-          {role === "eventprovider" && (
+          {  Cookies.get("role") === "eventprovider" && (
             <>
               
               <div className="relative z-0 w-full mb-5 group">
