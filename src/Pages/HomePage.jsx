@@ -22,7 +22,7 @@ function HomePage() {
     <>
       <section className="bg-center bg-no-repeat bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/conference.jpg')] bg-gray-700 bg-blend-multiply h-screen">
         <div className="px-4 mx-auto max-w-screen-xl flex flex-col justify-center items-center h-full text-center lg:py-56">
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">Welcome to TechCommune</h1>
+          <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl" ><span style={{ pointerEvents: 'none'}}>Welcome to TechCommune</span></h1>
           <p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">TechCommune is a vibrant community where tech enthusiasts, entrepreneurs, and innovators come together to collaborate, learn, and grow. Join us in shaping the future through technology.</p>
           <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
           <button
