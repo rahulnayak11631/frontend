@@ -1,11 +1,21 @@
 // Navbar.jsx
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
+
 
 function Navbar({ onGetEventsClick , onGetEventProvidersClick}) {
+    
+    const navigate=useNavigate();
+
+    const navigateToHome = () => {
+        navigate("/");
+      };
+
     return (
         <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <div className="flex items-center space-x-3 rtl:space-x-reverse">
+            <div className="flex items-center space-x-3 rtl:space-x-reverse cursor-pointer" onClick={navigateToHome}>
                     <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
                     <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">TechCommune</span>
                 </div>

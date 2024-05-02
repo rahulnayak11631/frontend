@@ -8,6 +8,8 @@ import SignupPage from './Pages/SignupPage.jsx';
 import LoginPage from './Pages/LoginPage.jsx';
 import HomePage from './Pages/HomePage.jsx';
 import AdminDashboard from './Pages/AdminDashboard.jsx';
+import Otp from './components/Otp.jsx';
+import AdminLoginPage from './Pages/AdminLoginPage.jsx';
 
 function App() {
   return (
@@ -16,7 +18,9 @@ function App() {
       <Route exact path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin" element={<AdminLoginPage />} />
+        <Route path="/otp" element={<Otp />} />
+        <Route path="/adminDashboard" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );
