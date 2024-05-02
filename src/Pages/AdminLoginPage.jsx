@@ -7,6 +7,7 @@ function AdminLoginPage() {
 
     return (
         <>
+        
             <AdminLogin />
             
         </>
