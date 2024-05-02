@@ -17,7 +17,7 @@ function GetEvents() {
     }, []);
 
     return (
-        <div className="grid grid-cols-1 mt-5 mx-3 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid mt-4 gap-4 mx-2">
             {events.map(event => (
                 <a key={event.eventId} href="#" className="flex items-center bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                     <img className="object-cover w-48 h-49 rounded-l-lg" src={"src/assets/image-4.jpg"} alt="" />

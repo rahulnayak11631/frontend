@@ -2,8 +2,7 @@ import { useEffect } from "react";
 import React, { useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { base_url } from "../Backend APi/BaseApi";
-// import base
+
 
 function Signup() {
   const [fetchedRole, setFetchedRole] = useState(null);

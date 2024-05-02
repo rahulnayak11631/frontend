@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import GetEvents from "../components/GetEvents.jsx";
 import GetEventProviders from "../components/GetEventProviders.jsx";
+import AdminLogin from "../components/AdminLogin.jsx";
 
 function AdminDashboard() {
     const [showEvents, setShowEvents] = useState(false);
