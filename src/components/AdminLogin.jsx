@@ -179,7 +179,7 @@ function AdminLogin() {
                 <div className="text-sm font-medium text-gray-900 dark:text-white">
                   Not registered yet?{" "}
                   <Link
-                    to="/"
+                    to="/adminSignUp"
                     className="text-blue-600 hover:underline dark:text-blue-500"
                   >
                     Create account
