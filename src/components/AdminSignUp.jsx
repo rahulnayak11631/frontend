@@ -48,7 +48,10 @@ function AdminSignUp() {
           const dataResponse=await response.data
           if (dataResponse.success) {
             Cookies.set("token",dataResponse.token)
-            toast.success(dataResponse.message)
+            setTimeout(() => {
+              toast.success(dataResponse.message)
+              navigate("/admin");
+            }, 2000);
           }
           else{
                 toast.error(dataResponse.message)

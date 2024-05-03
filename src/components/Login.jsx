@@ -1,21 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import axios from "axios";
 import "../Styles/Loader.css";
+import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { apiConfig } from "../Constants/ApiConfig";
 
-function AdminLogin() {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false); // Add loading state
+function Login() {
+  const defaultRole = "eventprovider";
+  const [role, setRole] = useState(defaultRole);
+  const [loading, setLoading] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
+
+  const handleRoleChange = (e) => {
+    const selectedRole = e.target.value;
+    setRole(selectedRole);
+    Cookies.set("role", selectedRole);
+  };
+
+  useEffect(() => {
+    console.log(role);
+  }, [role]);
+
+  useEffect(() => {
+    const storedRole = Cookies.get("role");
+    if (storedRole) {
+      setRole(storedRole);
+    }
+  }, []);
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -29,54 +49,104 @@ function AdminLogin() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true); // Set loading to true when form is submitted
-    Cookies.set("role", "admin");
     const data = {
       ...formData,
       role: Cookies.get("role"),
     };
-    console.log("Form data:", data);
-    console.log(Cookies.get("role"));
 
     const headers = {
       "Content-Type": "application/json",
       role: Cookies.get("role"),
     };
 
-    if (Cookies.get("role") === "admin") {
-      try {
-        const response = await axios.post(
-          `${apiConfig.baseURL}/login`,
-          {
-            email: data.email,
-            password: data.password,
-          },
-          { headers }
-        );
+    try {
+      const response = await axios.post(
+        `${apiConfig.baseURL}/login`,
+        {
+          email: data.email,
+          password: data.password,
+        },
+        { headers }
+      );
 
-        const dataResponse = await response.data;
-        if (dataResponse.success) {
-          Cookies.set("token", dataResponse.token);
-          Cookies.set("email", data.email);
-          Cookies.set("password", data.password);
+      const dataResponse = await response.data;
+      if (dataResponse.success) {
+
+        Cookies.set("token", dataResponse.token);
+        Cookies.set("email", data.email);
+        Cookies.set("password", data.password);
+
+        if (Cookies.get("role") === "eventprovider") {
+
+          setTimeout(() => {
+            navigate("/otp");
+            toast.success(dataResponse.message);
+          }, 2000);
+
+        } else if (Cookies.get("role") === "user") {
+
           toast.success(dataResponse.message);
           setTimeout(() => {
             navigate("/otp");
           }, 2000);
-        } else {
-          toast.error(dataResponse.message);
-
+          
         }
-        console.log(dataResponse);
-      } catch (error) {
-        // console.error(error);
-        toast.error(error.message);
-      } finally {
-        setLoading(false); // Set loading to false after response
-        Cookies.remove("password")
-
+      } else {
+        toast.error(dataResponse.message);
       }
+      console.log(dataResponse);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false); // Set loading to false after response
+      Cookies.remove("password");
     }
   };
+
+  //   const handleForgotPassword= async (event) => {
+  //     event.preventDefault();
+  //     const headers = {
+  //         role: Cookies.get("role"),
+  //         email: email
+  //     }
+  //     try {
+  //         const response = await axios.post(
+  //           `${apiConfig.baseURL}/forgotpassword`,
+  //           {
+  //           },
+  //           { headers }
+  //         );
+
+  //         const dataResponse = await response.data;
+  //         if (dataResponse.success) {
+
+  //         Cookies.set("ResetPassword","true")
+
+  //           if (Cookies.get("role") === "eventprovider") {
+  //             toast.success(dataResponse.message);
+  //             setTimeout(() => {
+  //               navigate("/otp");
+  //             }, 2000);
+  //           }
+  //           else if (Cookies.get("role") === "user") {
+  //             toast.success(dataResponse.message);
+  //             setTimeout(() => {
+  //               navigate("/otp");
+  //             }, 2000);
+  //           }
+  //       }
+  //          else {
+  //           toast.error(dataResponse.message);
+  //         }
+  //         console.log(dataResponse);
+  //       } catch (error) {
+  //         toast.error(error.message);
+  //       } finally {
+  //         setLoading(false); // Set loading to false after response
+  //         Cookies.remove("password")
+
+  //       }
+  //     };
 
   return (
     <>
@@ -96,7 +166,7 @@ function AdminLogin() {
         >
           <div className="flex flex-col justify-center items-center mt-5">
             <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-              Admin Login - TechCommune
+              Welcome to TechCommune
             </h1>
             <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400 mt-5">
               Join our vibrant community of tech enthusiasts, entrepreneurs, and
@@ -109,6 +179,39 @@ function AdminLogin() {
                 Sign in to TechCommune
               </h2>
               <form className="mt-8 space-y-6" action="#">
+                <div className="flex items-center mb-6">
+                  <label className="block mb-2 mr-3 mt-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Select Role:
+                  </label>
+                  <div className="flex items-center space-x-4">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="eventprovider"
+                        checked={role === "eventprovider"}
+                        onChange={handleRoleChange}
+                        className="form-radio h-5 w-5 text-blue-600 dark:text-blue-500"
+                      />
+                      <span className="ml-2 text-sm text-gray-900 dark:text-white">
+                        Event Provider
+                      </span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="user"
+                        checked={role === "user"}
+                        onChange={handleRoleChange}
+                        className="form-radio h-5 w-5 text-blue-600 dark:text-blue-500"
+                      />
+                      <span className="ml-2 text-sm text-gray-900 dark:text-white">
+                        User
+                      </span>
+                    </label>
+                  </div>
+                </div>
                 <div>
                   <label
                     htmlFor="email"
@@ -147,11 +250,9 @@ function AdminLogin() {
                   </button>
                 </div>
                 <div className="flex items-start">
-                
-                  
                   <a
-                    href="#"
                     className="ms-auto text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+                    onClick={() => navigate("/emailforgotpassword")}
                   >
                     Forgot Password?
                   </a>
@@ -166,7 +267,7 @@ function AdminLogin() {
                 <div className="text-sm font-medium text-gray-900 dark:text-white">
                   Not registered yet?{" "}
                   <Link
-                    to="/adminSignUp"
+                    to="/"
                     className="text-blue-600 hover:underline dark:text-blue-500"
                   >
                     Create account
@@ -182,4 +283,4 @@ function AdminLogin() {
   );
 }
 
-export default AdminLogin;
+export default Login;

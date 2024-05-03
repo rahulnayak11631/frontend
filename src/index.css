@@ -2,3 +2,13 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+/* Apply to all text elements */
+body {
+    user-select: none;
+  }
+  
+  /* Apply to specific text elements */
+  .text-element {
+    user-select: none;
+  }
+  
