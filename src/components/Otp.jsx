@@ -6,10 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { apiConfig } from "../Constants/ApiConfig";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../Styles/Loader.css";
 
 function Otp() {
+  const [loading, setLoading] = useState(false);
   const [inputs, setInputs] = useState(Array(6).fill(""));
   const [isFilled, setIsFilled] = useState(false);
+  const [ResetPassword, setResetPassword] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,34 +54,86 @@ function Otp() {
     const role = Cookies.get("role");
     const email = Cookies.get("email");
     const otp = inputs.join("");
+    setLoading(true); // Set loading to true when form is submitted
 
     const headers = {
-        role: role,
-        email: email,
-        otpforTwoFAFromUser: otp,
+      role: role,
+      email: email,
+      otpforTwoFAFromUser: otp,
+      otp: otp, //otp for reset password
     };
 
-    try {
-        const response = await axios.post(`${apiConfig.baseURL}/2fa`, {}, { headers });
-        const dataResponse = response.data;
-        console.log(dataResponse)
+    const ResetPassword = Cookies.get("ResetPassword");
+
+    if (ResetPassword === "true") {
+      try {
+        const response = await axios.post(
+          `${apiConfig.baseURL}/verifyOtpforforgotpassword`,
+          {},
+          { headers }
+        );
+        const dataResponse = await response.data;
+        console.log(dataResponse);
         if (dataResponse.success) {
-
-            toast.success(dataResponse.message);
-            
-            if (Cookies.get("role") === "admin") {
-              setTimeout(() => {
-                navigate("/adminDashboard");
-              }, 2000);
-            }
+          setLoading(false);
+          toast.success(dataResponse.message);
+          // if (Cookies.get("role") === "admin") {
+          //   setTimeout(() => {
+          //     navigate("/resetPassword");
+          //   }, 2000);
+          // } else if (Cookies.get("role") === "eventprovider") {
+          //   setTimeout(() => {
+          //     navigate("/resetPassword");
+          //   }, 2000);
+          // } else if (Cookies.get("role") === "user") {
+          //   setTimeout(() => {
+          //     navigate("/resetPassword");
+          //   }, 2000);
+          // }
+          setTimeout(() => {
+            navigate("/resetPassword");
+          }, 2000);
         } else {
-            toast.error(dataResponse.message);
+          toast.error(dataResponse.message);
+          navigate("/otp");
         }
-    } catch (error) {
+      } catch (error) {
         toast.error(error.message);
+      } finally {
+        Cookies.remove("ResetPassword");
+      }
+    } else {
+      try {
+        const response = await axios.post(
+          `${apiConfig.baseURL}/2fa`,
+          {},
+          { headers }
+        );
+        const dataResponse = response.data;
+        console.log(dataResponse);
+        if (dataResponse.success) {
+          toast.success(dataResponse.message);
+          if (Cookies.get("role") === "admin") {
+            setTimeout(() => {
+              navigate("/adminDashboard");
+            }, 2000);
+          } else if (Cookies.get("role") === "eventprovider") {
+            setTimeout(() => {
+              navigate("/eventProviderDashboard");
+            }, 2000);
+          } else if (Cookies.get("role") === "user") {
+            setTimeout(() => {
+              navigate("/userDashboard");
+            }, 2000);
+          }
+        } else {
+          toast.error(dataResponse.message);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
     }
-};
-
+  };
 
   const resendOtp = async (event) => {
     Cookies.set("role", "admin");
@@ -110,7 +165,7 @@ function Otp() {
       if (dataResponse.success) {
         Cookies.set("token", dataResponse.token);
         Cookies.set("email", email);
-        toast.success(dataResponse.message)
+        toast.success(dataResponse.message);
 
         navigate("/otp");
       }
@@ -118,17 +173,39 @@ function Otp() {
     }
   };
 
+  if (loading) {
+    return (
+      <>
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col justify-center items-center">
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+            <div className="loader">
+              <span className="loader-text">loading...</span>
+              <span className="load"></span>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        {loading && (
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+            <div className="loader">
+              <span className="loader-text">loading...</span>
+              <span className="load"></span>
+            </div>
+          </div>
+        )}
         <div className="max-w-md mx-auto text-center bg-white px-4 sm:px-8 py-10 rounded-xl shadow-lg">
           <header className="mb-8">
             <h1 className="text-2xl font-bold mb-1 ">
               One Time Password Verification
             </h1>
             <p className="text-[15px] text-slate-500">
-              Enter the 6-digit verification code that was sent to your phone
-              number.
+              Enter the 6-digit verification code that was sent to{" "}
+              {Cookies.get("email")}.
             </p>
           </header>
           <form id="otp-form">
