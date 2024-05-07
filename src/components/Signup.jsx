@@ -2,11 +2,10 @@ import { useEffect } from "react";
 import React, { useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const [fetchedRole, setFetchedRole] = useState(null);
-
 
   const [formData, setFormData] = useState({
     email: "",
@@ -20,11 +19,19 @@ function Signup() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
- 
-  
+  const [setErrorMessage] = useState("");
+
+  const navigate = useNavigate(); // Utilize useNavigate for redirection
+
   const handleSubmit = async (event) => {
-    console.log(Cookies.get("role"));
+    //console.log(Cookies.get("role"));
     event.preventDefault();
+
+    if (formData.password !== formData.repeatPassword) {
+      setErrorMessage("Passwords do not match!");
+      return; // Prevent form submission
+    }
+
     // Prepare data to be submitted
     const data = {
       ...formData,
@@ -34,43 +41,54 @@ function Signup() {
     console.log("Form data:", data);
     console.log(Cookies.get("role"));
 
-    const headers={
-      "role":Cookies.get("role")
-    }
+    const headers = {
+      "role": Cookies.get("role"),
+    };
 
-    if (Cookies.get("role")==="user") {
-      
-      const response= await axios.post(`http://localhost:8090/api/adduser`,{
-        userName:data.firstName+" "+data.lastName,
-        email:data.email,
-        password:data.password
-  
-      },{headers})
-      const dataResponse=await response.data
+    if (Cookies.get("role") === "user") {
+      const response = await axios.post(
+        `http://localhost:8090/api/adduser`,
+        {
+          userName: data.firstName + " " + data.lastName,
+          email: data.email,
+          password: data.password,
+        },
+        { headers }
+      );
+      const dataResponse = await response.data;
       if (dataResponse.success) {
-        Cookies.set("token",dataResponse.token)
+        Cookies.set("token", dataResponse.token);
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      } else {
+        console.log(dataResponse);
       }
-      console.log(dataResponse)
     }
 
-    if(Cookies.get("role")==="eventprovider")
-    {
-      const response= await axios.post(`http://localhost:8090/api/adduser`,{
-        userName:data.firstName+" "+data.lastName,
-        email:data.email,
-        password:data.password,
-        phoneNumber: data.phone,
-        orgName: data.company
-  
-      },{headers})
-      const dataResponse=await response.data
+    if (Cookies.get("role") === "eventprovider") {
+      const response = await axios.post(
+        `http://localhost:8090/api/adduser`,
+        {
+          userName: data.firstName + " " + data.lastName,
+          email: data.email,
+          password: data.password,
+          phoneNumber: data.phone,
+          orgName: data.company,
+        },
+        { headers }
+      );
+      const dataResponse = await response.data;
       if (dataResponse.success) {
-        Cookies.set("token",dataResponse.token)
+        Cookies.set("token", dataResponse.token);
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      } else {
+        console.log(dataResponse);
       }
-      console.log(dataResponse)
     }
-
-  }
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -78,6 +96,7 @@ function Signup() {
       ...prevFormData,
       [name]: value,
     }));
+    setErrorMessage(""); // Clear error on input change
   };
 
   const handleTogglePassword = () => {
@@ -87,7 +106,7 @@ function Signup() {
   const handleToggleRepeatPassword = () => {
     setShowRepeatPassword((prevShowRepeatPassword) => !prevShowRepeatPassword);
   };
-
+  
   return (
     <div>
       <h1 className="max-w-xl mt-20 mb-0 rounded-t-lg mx-auto bg-blue-300 p-3 text-2xl my-10 font-semibold text-center text-dark-blue mb-6" style={{ marginBottom: "-1px" }}>Signup</h1>
