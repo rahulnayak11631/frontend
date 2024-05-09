@@ -40,6 +40,8 @@ function EmailForForgotPassword() {
         {},
         { headers }
       );
+
+      
       const dataResponse = await response.data;
       if (dataResponse.success) {
         Cookies.set("token", dataResponse.token);

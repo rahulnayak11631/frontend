@@ -103,50 +103,6 @@ function Login() {
     }
   };
 
-  //   const handleForgotPassword= async (event) => {
-  //     event.preventDefault();
-  //     const headers = {
-  //         role: Cookies.get("role"),
-  //         email: email
-  //     }
-  //     try {
-  //         const response = await axios.post(
-  //           `${apiConfig.baseURL}/forgotpassword`,
-  //           {
-  //           },
-  //           { headers }
-  //         );
-
-  //         const dataResponse = await response.data;
-  //         if (dataResponse.success) {
-
-  //         Cookies.set("ResetPassword","true")
-
-  //           if (Cookies.get("role") === "eventprovider") {
-  //             toast.success(dataResponse.message);
-  //             setTimeout(() => {
-  //               navigate("/otp");
-  //             }, 2000);
-  //           }
-  //           else if (Cookies.get("role") === "user") {
-  //             toast.success(dataResponse.message);
-  //             setTimeout(() => {
-  //               navigate("/otp");
-  //             }, 2000);
-  //           }
-  //       }
-  //          else {
-  //           toast.error(dataResponse.message);
-  //         }
-  //         console.log(dataResponse);
-  //       } catch (error) {
-  //         toast.error(error.message);
-  //       } finally {
-  //         setLoading(false); // Set loading to false after response
-  //         Cookies.remove("password")
-
-  //       }
-  //     };
 
   return (
     <>

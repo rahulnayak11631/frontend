@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-import AdminDashboard from "../Pages/AdminDashboard";
+import AdminDashboard from "../Pages/AdminDashboard.jsx";
+
+
 import { useNavigate } from "react-router-dom";
 import { apiConfig } from "../Constants/ApiConfig";
 import { ToastContainer, toast } from "react-toastify";
@@ -112,6 +114,7 @@ function Otp() {
         const dataResponse = response.data;
         console.log(dataResponse);
         if (dataResponse.success) {
+          Cookies.set("token",dataResponse.token)
           toast.success(dataResponse.message);
           if (Cookies.get("role") === "admin") {
             setTimeout(() => {

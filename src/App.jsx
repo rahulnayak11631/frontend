@@ -16,8 +16,7 @@ import EventProviderDashboard from './Pages/EventProviderDashboard.jsx';
 import UserDashboard from './Pages/UserDashboard.jsx';
 import ResetPassword from './components/ResetPassword.jsx';
 import EmailForForgotPassword from './components/EmailForForgotPassword.jsx';
-
-
+import EventProviderDocumentPage from './Pages/EventProviderDocumentPage.jsx'
 function App() {
   return (
     <Router>
@@ -33,6 +32,8 @@ function App() {
         <Route path="/userDashboard" element={<UserDashboard />} />
         <Route  path="/resetPassword" element ={<ResetPassword/>} />
         <Route  path="/emailforgotpassword" element ={<EmailForForgotPassword/>} />
+        <Route  path="/eventproviderdocuments" element ={<EventProviderDocumentPage/>} />
+        
 
        </Routes>
     </Router>
