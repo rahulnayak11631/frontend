@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 function GetEventProviders() {
   const [eventProviders, setEventProviders] = useState([]);
@@ -33,15 +34,25 @@ function GetEventProviders() {
         "http://localhost:8090/api/getimagesforep",
         { headers }
       );
-      const imageUrls = response.data.imageUrls;
+      const imageUrls = await response.data
+      console.log(imageUrls.length)
+
+      if(imageUrls.length===0)
+        {
+            toast.error("Event Provider has not uploaded any documents!")
+        }
+        else
+        {
+            navigate("/eventproviderdocuments", { state: { imageUrls } });
+        }
       // Navigate to EventProviderDocuments component and pass the imageUrls as props
-      navigate("/eventproviderdocuments", { state: { imageUrls } });
     } catch (error) {
       console.error("Error fetching images:", error);
     }
   };
 
   return (
+    <>
     <div className="grid grid-cols-1 my-3 mx-3 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {eventProviders.map((provider) => (
         <div
@@ -68,7 +79,11 @@ function GetEventProviders() {
               <span className="text-white font-bold">
                 Verification Approval:
               </span>{" "}
-              {provider.verificationApproval ? "Approved" : "Pending"}
+              {provider.verificationApproval === "Approved"
+                      ? "Approved"
+                      : provider.verificationApproval === "Denied"
+                      ? "Denied "
+                      : "Pending"}
             </p>
           </div>
           <div className="flex flex-col space-y-4">
@@ -78,18 +93,20 @@ function GetEventProviders() {
             >
               View Documents
             </button>
-            <div className="flex justify-center space-x-4">
+            {/* <div className="flex justify-center space-x-4">
               <button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 text-white rounded-lg py-2.5 px-4 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-800">
                 Approve
               </button>
               <button className="w-full sm:w-auto bg-red-600 hover:bg-red-700 focus:ring-2 focus:ring-red-300 text-white rounded-lg py-2.5 px-4 dark:bg-red-700 dark:hover:bg-red-800 dark:focus:ring-red-800">
                 Deny
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       ))}
     </div>
+    <ToastContainer position="top-right" autoClose={5000}/>
+    </>
   );
 }
 

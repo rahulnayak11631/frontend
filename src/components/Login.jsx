@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import "../Styles/Loader.css";
@@ -70,26 +70,22 @@ function Login() {
       );
 
       const dataResponse = await response.data;
+      // console.log(dataResponse)
       if (dataResponse.success) {
-
         Cookies.set("token", dataResponse.token);
         Cookies.set("email", data.email);
         Cookies.set("password", data.password);
 
         if (Cookies.get("role") === "eventprovider") {
-
-          setTimeout(() => {
-            navigate("/otp");
-            toast.success(dataResponse.message);
-          }, 2000);
-
-        } else if (Cookies.get("role") === "user") {
-
           toast.success(dataResponse.message);
           setTimeout(() => {
             navigate("/otp");
           }, 2000);
-          
+        } else if (Cookies.get("role") === "user") {
+          toast.success(dataResponse.message);
+          setTimeout(() => {
+            navigate("/otp");
+          }, 2000);
         }
       } else {
         toast.error(dataResponse.message);
@@ -102,7 +98,6 @@ function Login() {
       Cookies.remove("password");
     }
   };
-
 
   return (
     <>
@@ -126,7 +121,7 @@ function Login() {
             </h1>
             <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400 mt-5">
               Join our vibrant community of tech enthusiasts, entrepreneurs, and
-              innovators. Let's shape the future through technology together.
+              innovators. Lets shape the future through technology together.
             </p>
           </div>
           <div className="mt-5 bg-white rounded-lg shadow-xl dark:bg-gray-800">
