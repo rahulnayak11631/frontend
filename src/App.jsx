@@ -16,6 +16,8 @@ import UserDashboard from './Pages/UserDashboard.jsx';
 import ResetPassword from './components/ResetPassword.jsx';
 import EmailForForgotPassword from './components/EmailForForgotPassword.jsx';
 import EventProviderDocumentPage from './Pages/EventProviderDocumentPage.jsx'
+import QRScannerPage from "./Pages/QRScannerPage.jsx";
+
 function App() {
   return (
     <Router>
@@ -32,7 +34,8 @@ function App() {
         <Route  path="/resetPassword" element ={<ResetPassword/>} />
         <Route  path="/emailforgotpassword" element ={<EmailForForgotPassword/>} />
         <Route  path="/eventproviderdocuments" element ={<EventProviderDocumentPage/>} />
-        
+        <Route  path="/qrscanner" element ={<QRScannerPage/>} />
+
 
        </Routes>
     </Router>
