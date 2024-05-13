@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,7 +9,7 @@ import HomePage from './Pages/HomePage.jsx';
 import AdminDashboard from './Pages/AdminDashboard.jsx';
 import Otp from './components/Otp.jsx';
 import AdminLoginPage from './Pages/AdminLoginPage.jsx';
-import AdminSignUp from './components/AdminSignUp.jsx';
+// import AdminSignUp from './components/AdminSignUp.jsx';
 import AdminSignUpPage from './Pages/AdminSignupPage.jsx';
 import EventProviderDashboard from './Pages/EventProviderDashboard.jsx';
 import UserDashboard from './Pages/UserDashboard.jsx';

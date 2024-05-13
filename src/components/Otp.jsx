@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-import AdminDashboard from "../Pages/AdminDashboard.jsx";
+// import AdminDashboard from "../Pages/AdminDashboard.jsx";
 
 import { useNavigate } from "react-router-dom";
 import { apiConfig } from "../Constants/ApiConfig";
@@ -13,7 +13,7 @@ function Otp() {
   const [loading, setLoading] = useState(false);
   const [inputs, setInputs] = useState(Array(6).fill(""));
   const [isFilled, setIsFilled] = useState(false);
-  const [ResetPassword, setResetPassword] = useState(false);
+  // const [ResetPassword, setResetPassword] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -92,6 +92,7 @@ function Otp() {
         Cookies.remove("ResetPassword");
       }
     } else {
+      setLoading(false);
       try {
         const response = await axios.post(
           `${apiConfig.baseURL}/2fa`,
@@ -99,24 +100,48 @@ function Otp() {
           { headers }
         );
         const dataResponse = response.data;
-        
+
         if (dataResponse.success) {
           console.log(dataResponse);
           toast.success(dataResponse.message);
 
           Cookies.set("token", dataResponse.token);
-          if (Cookies.get("role") === "admin") {
-            setTimeout(() => {
-              navigate("/adminDashboard");
-            }, 2000);
-          } else if (Cookies.get("role") === "eventprovider") {
-            setTimeout(() => {
-              navigate("/eventProviderDashboard");
-            }, 2000);
-          } else if (Cookies.get("role") === "user") {
-            setTimeout(() => {
-              navigate("/userDashboard");
-            }, 2000);
+
+          // Fetch user details by token
+          const userDetailsResponse = await axios.get(
+            "http://localhost:8090/api/getuserdetailsbytoken",
+            {
+              headers: {
+                token: Cookies.get("token"),
+                role: Cookies.get("role"),
+              },
+            }
+          );
+
+          const response = await userDetailsResponse.data;
+
+          console.log(response);
+
+          if (response !== null) {
+            console.log("user id is " + response.id);
+            const id = response.id;
+            Cookies.set("Id", id);
+
+            if (role === "admin") {
+              setTimeout(() => {
+                navigate("/adminDashboard");
+              }, 2000);
+            } else if (role === "eventprovider") {
+              setTimeout(() => {
+                navigate("/eventProviderDashboard");
+              }, 2000);
+            } else if (role === "user") {
+              setTimeout(() => {
+                navigate("/userDashboard");
+              }, 2000);
+            }
+          } else {
+            toast.error(userDetailsResponse.data.message);
           }
         } else {
           toast.error(dataResponse.message);
@@ -231,7 +256,7 @@ function Otp() {
             </div>
           </form>
           <div className="text-sm text-slate-500 mt-4">
-            Didn't receive code?{" "}
+            Didnt receive code?{" "}
             <a
               className="font-medium text-indigo-500 hover:text-indigo-600"
               href="#0"
