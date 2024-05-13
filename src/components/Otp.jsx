@@ -112,6 +112,7 @@ function Otp() {
         const dataResponse = response.data;
         console.log(dataResponse);
         if (dataResponse.success) {
+          Cookies.set("token",dataResponse.token)
           toast.success(dataResponse.message);
           if (Cookies.get("role") === "admin") {
             setTimeout(() => {

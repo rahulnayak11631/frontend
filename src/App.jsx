@@ -16,6 +16,7 @@ import EventProviderDashboard from './Pages/EventProviderDashboard.jsx';
 import UserDashboard from './Pages/UserDashboard.jsx';
 import ResetPassword from './components/ResetPassword.jsx';
 import EmailForForgotPassword from './components/EmailForForgotPassword.jsx';
+import UserProfile from './components/UserProfile.jsx';
 
 
 function App() {
@@ -33,7 +34,7 @@ function App() {
         <Route path="/userDashboard" element={<UserDashboard />} />
         <Route  path="/resetPassword" element ={<ResetPassword/>} />
         <Route  path="/emailforgotpassword" element ={<EmailForForgotPassword/>} />
-
+        <Route path="/userprofile" element={<UserProfile />} />
        </Routes>
     </Router>
   );
