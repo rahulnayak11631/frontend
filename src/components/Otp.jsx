@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-import AdminDashboard from "../Pages/AdminDashboard";
+import AdminDashboard from "../Pages/AdminDashboard.jsx";
+
 import { useNavigate } from "react-router-dom";
 import { apiConfig } from "../Constants/ApiConfig";
 import { ToastContainer, toast } from "react-toastify";
@@ -77,19 +78,7 @@ function Otp() {
         if (dataResponse.success) {
           setLoading(false);
           toast.success(dataResponse.message);
-          // if (Cookies.get("role") === "admin") {
-          //   setTimeout(() => {
-          //     navigate("/resetPassword");
-          //   }, 2000);
-          // } else if (Cookies.get("role") === "eventprovider") {
-          //   setTimeout(() => {
-          //     navigate("/resetPassword");
-          //   }, 2000);
-          // } else if (Cookies.get("role") === "user") {
-          //   setTimeout(() => {
-          //     navigate("/resetPassword");
-          //   }, 2000);
-          // }
+
           setTimeout(() => {
             navigate("/resetPassword");
           }, 2000);
@@ -110,10 +99,12 @@ function Otp() {
           { headers }
         );
         const dataResponse = response.data;
-        console.log(dataResponse);
+        
         if (dataResponse.success) {
-          Cookies.set("token",dataResponse.token)
+          console.log(dataResponse);
           toast.success(dataResponse.message);
+
+          Cookies.set("token", dataResponse.token);
           if (Cookies.get("role") === "admin") {
             setTimeout(() => {
               navigate("/adminDashboard");

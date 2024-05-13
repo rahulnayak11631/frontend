@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+
 
 function Signup() {
   const [fetchedRole, setFetchedRole] = useState(null);
@@ -19,7 +21,7 @@ function Signup() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
-  const [setErrorMessage] = useState("");
+  // const [setErrorMessage] = useState("");
 
   const navigate = useNavigate(); // Utilize useNavigate for redirection
 
@@ -28,11 +30,12 @@ function Signup() {
     event.preventDefault();
 
     if (formData.password !== formData.repeatPassword) {
-      setErrorMessage("Passwords do not match!");
-      return; // Prevent form submission
+      // setErrorMessage("Passwords do not match!");
+      toast.error("Passwords do not match")
+      // return; // Prevent form submission
     }
-
-    // Prepare data to be submitted
+    else{
+      // Prepare data to be submitted
     const data = {
       ...formData,
       role: Cookies.get("role"), // Include the selected role in the data
@@ -57,7 +60,9 @@ function Signup() {
       );
       const dataResponse = await response.data;
       if (dataResponse.success) {
+
         Cookies.set("token", dataResponse.token);
+        toast.success(dataResponse.message)
         setTimeout(() => {
           navigate("/login");
         }, 2000);
@@ -81,13 +86,17 @@ function Signup() {
       const dataResponse = await response.data;
       if (dataResponse.success) {
         Cookies.set("token", dataResponse.token);
+        toast.success(dataResponse.message)
         setTimeout(() => {
           navigate("/login");
         }, 2000);
       } else {
-        console.log(dataResponse);
+        toast.error(dataResponse.message)
       }
     }
+    }
+
+    
   };
 
   const handleChange = (event) => {
@@ -96,7 +105,7 @@ function Signup() {
       ...prevFormData,
       [name]: value,
     }));
-    setErrorMessage(""); // Clear error on input change
+    // setErrorMessage(""); // Clear error on input change
   };
 
   const handleTogglePassword = () => {
@@ -108,6 +117,7 @@ function Signup() {
   };
   
   return (
+   <>
     <div>
       <h1 className="max-w-xl mt-20 mb-0 rounded-t-lg mx-auto bg-blue-300 p-3 text-2xl my-10 font-semibold text-center text-dark-blue mb-6" style={{ marginBottom: "-1px" }}>Signup</h1>
       <form onSubmit={handleSubmit} className="max-w-xl mx-auto p-8 rounded-b-lg text-sm text-white bg-gray-800 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:border-blue-600 shadow-lg">
@@ -167,6 +177,8 @@ function Signup() {
         </div>
       </form>
     </div>
+    <ToastContainer position="top-right" autoClose={5000}/>
+    </>
   );
 }
 

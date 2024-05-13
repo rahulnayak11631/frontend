@@ -19,6 +19,7 @@ import EmailForForgotPassword from './components/EmailForForgotPassword.jsx';
 import UserProfile from './components/UserProfile.jsx';
 
 
+import EventProviderDocumentPage from './Pages/EventProviderDocumentPage.jsx'
 function App() {
   return (
     <Router>
@@ -35,6 +36,9 @@ function App() {
         <Route  path="/resetPassword" element ={<ResetPassword/>} />
         <Route  path="/emailforgotpassword" element ={<EmailForForgotPassword/>} />
         <Route path="/userprofile" element={<UserProfile />} />
+        <Route  path="/eventproviderdocuments" element ={<EventProviderDocumentPage/>} />
+        
+
        </Routes>
     </Router>
   );
