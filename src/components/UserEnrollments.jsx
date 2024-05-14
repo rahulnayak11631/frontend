@@ -22,6 +22,7 @@ function UserEnrollments() {
         console.error("Error fetching enrollments:", error);
       }
     };
+    
 
     fetchEnrollments();
   }, []);

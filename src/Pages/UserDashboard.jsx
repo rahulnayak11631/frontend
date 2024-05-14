@@ -1,8 +1,8 @@
 import React from "react";
 import UserNavBar from "../components/UserNavBar.jsx";
-import GetEvents from "../components/GetEvents.jsx";
 import FilterEvents from "../components/FilterEvents.jsx";
 import UserEnrollments from "../components/UserEnrollments.jsx";
+import GetEventsClickable from "../components/GetEventsClickable.jsx";
 
 function UserDashboard() {
   return (
@@ -14,7 +14,7 @@ function UserDashboard() {
         </div>
         <div className="grid gap-6 pl-4">
           {/* Sample event cards */}
-          <GetEvents />
+          <GetEventsClickable />
         </div>
         <div className="mt-8 pl-4">
           <FilterEvents />
@@ -26,7 +26,6 @@ function UserDashboard() {
           {/* Sample event cards */}
           <UserEnrollments />
         </div>
-
         </div>
       </div>
     </div>

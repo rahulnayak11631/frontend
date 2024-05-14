@@ -17,9 +17,8 @@ import UserDashboard from './Pages/UserDashboard.jsx';
 import ResetPassword from './components/ResetPassword.jsx';
 import EmailForForgotPassword from './components/EmailForForgotPassword.jsx';
 import UserProfile from './components/UserProfile.jsx';
-
-
 import EventProviderDocumentPage from './Pages/EventProviderDocumentPage.jsx'
+import EventEnroll from './components/EventEnroll.jsx';
 function App() {
   return (
     <Router>
@@ -37,6 +36,7 @@ function App() {
         <Route  path="/emailforgotpassword" element ={<EmailForForgotPassword/>} />
         <Route path="/userprofile" element={<UserProfile />} />
         <Route  path="/eventproviderdocuments" element ={<EventProviderDocumentPage/>} />
+        <Route path='/eventenroll/:eventId' element={<EventEnroll/>}/>
         
 
        </Routes>
