@@ -24,7 +24,7 @@ const AttendanceProgressBar = ({ attendeesCount, maxCapacity }) => {
         styles={buildStyles({
           rotation: 0.25,
           strokeLinecap: "butt",
-          textSize: "12px",
+          textSize: "18px",
           pathColor: color,
           textColor: color,
           trailColor: "#d6d6d6",
