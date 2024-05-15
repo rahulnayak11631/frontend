@@ -1,9 +1,10 @@
+import CreateEvent from "../components/CreateEvent";
 import UpdateEventModal from "../components/UpdateEventModal";
 
 function UpdateEventPage(){
     return(
 
-        <UpdateEventModal/>
+       <CreateEvent/>
     );
 }
 

@@ -36,7 +36,7 @@ function App() {
         <Route  path="/emailforgotpassword" element ={<EmailForForgotPassword/>} />
         <Route  path="/eventproviderdocuments" element ={<EventProviderDocumentPage/>} />
         <Route  path="/qrscanner" element ={<QRScannerPage/>} />
-        <Route  path="/updateevent" element ={<UpdateEventPage/>} />
+        <Route  path="/createEvent" element ={<UpdateEventPage/>} />
 
 
        </Routes>

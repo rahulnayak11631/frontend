@@ -5,10 +5,14 @@ import StatisticsCards from "./StatisticsCards";
 import EPNavbar from "./EPNavbar";
 import UpcomingEvents from "./UpcomingEvents";
 import UpdateEventModal from "./UpdateEventModal";
+import { useLocation } from "react-router-dom";
+import "../Styles/Sidebar.css";
 
 function EventProviderDashboardPage() {
+  const location = useLocation();
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [first, setfirst] = useState(false);
 
   useEffect(() => {
     // Fetch events from the API endpoint
@@ -35,11 +39,13 @@ function EventProviderDashboardPage() {
     }
 
     fetchEvents();
-  }, []);
+  }, [first]);
 
   const handleEventCardClick = (event) => {
     setSelectedEvent(event);
-    console.log(event)
+    document.getElementById("eventModal").style.display = "";
+    Cookies.set("CloseIcon", true);
+    console.log(event);
     Cookies.set("eventId", event.eventId);
   };
 
@@ -53,7 +59,7 @@ function EventProviderDashboardPage() {
           headers: {
             "Content-Type": "application/json",
             // Pass organizerId in the header
-            "organizerId":Cookies.get("Id")
+            organizerId: Cookies.get("Id"),
           },
         });
         if (!response.ok) {
@@ -67,12 +73,28 @@ function EventProviderDashboardPage() {
     }
 
     fetchCompletedEvents();
-  }, []);
+    setfirst(false);
+  }, [first]);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const handleClick = (index) => {
+    setSelectedItem(index);
+  };
+  
+  const handleItemClick = (e, index) => {
+    e.preventDefault();
+    handleClick(index);
+  };
+  
+  const handleOutsideClick = (e) => {
+    setSelectedItem(null); // Reset selectedItem when clicking outside
+  };
+  
 
   return (
     <>
       <div className="flex flex-row bg-gray-100">
-        <aside
+      <aside
           id="logo-sidebar"
           className="fixed top-[1rem] left-2 z-40 w-64 pt-8 pl-4 pr-2 overflow-y-auto border-r border-gray-200 sm:translate-x-0"
           aria-label="Sidebar"
@@ -88,59 +110,54 @@ function EventProviderDashboardPage() {
               <span to className="py-6 px-8 text-center text-white font-bold">
                 <h6>Event Provider Dashboard</h6>
               </span>
-              <li>
-                <a
-                  href="#"
-                  className="flex items-center p-2 rounded-lg group"
-                  style={{ color: "#fbfbfb" }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = "#f1f1f1";
-                    e.currentTarget.style.color = "#1f2020";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
-                    e.currentTarget.style.color = "#fbfbfb";
-                  }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const currentBackgroundColor =
-                      e.currentTarget.style.backgroundColor;
-                    if (
-                      currentBackgroundColor === "transparent" ||
-                      currentBackgroundColor === ""
-                    ) {
-                      e.currentTarget.style.backgroundColor = "#ffffff";
-                      e.currentTarget.style.color = "#1f2020";
-                    } else {
-                      e.currentTarget.style.backgroundColor = "transparent";
-                      e.currentTarget.style.color = "#fbfbfb";
-                    }
-                  }}
-                >
-                  <svg
-                    className="w-5 h-5 text-gray-400 transition duration-75 group-hover:text-gray-400 dark:group-hover:text-gray-500"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 21"
-                  >
-                    <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
-                    <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
-                  </svg>
-                  <span className="ms-3">Dashboard</span>
-                </a>
-              </li>
+              {["Dashboard", "Add Event", "Get Attendee List"].map(
+                (item, index) => (
+                  <li key={index} className="list-item rounded-lg" >
+                    <a
+                      href="#"
+                      className={`flex items-center p-2 rounded-lg group   ${
+                        selectedItem === index
+                          ? "bg-white text-black"
+                          : "text-white"
+                      }`}
+                      style={{ color: "#fbfbfb" }}
+                     
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleClick(index);
+                        e.currentTarget.style.backgroundColor = "#ffffff";
+                        e.currentTarget.style.color = "#1f2020";
+                      }}
+                    >
+                      <svg
+                        className="w-5 h-5 text-gray-400 transition duration-75 group-hover:text-gray-400 dark:group-hover:text-gray-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 22 21"
+                      >
+                        <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
+                        <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
+                      </svg>
+                      <span className="ms-3">{item}</span>
+                    </a>
+                  </li>
+                )
+              )}
             </ul>
           </div>
         </aside>
-
         <EPNavbar />
       </div>
       <div className="flex flex-col items-center bg-gray-100">
         <div className="p-4 sm:ml-64 mt-5">
           <StatisticsCards />
           {selectedEvent && (
-            <UpdateEventModal event={selectedEvent} isOpen={true} />
+            <UpdateEventModal
+              event={selectedEvent}
+              isOpen={true}
+              first={setfirst}
+            />
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 justify-evenly justify-center text-center gap-x-8 gap-y-12 mt-5 ">
@@ -161,16 +178,15 @@ function EventProviderDashboardPage() {
                   <h5 className="mb-2 text-xl font-bold tracking-tight text-black dark:text-black">
                     {event.title}
                   </h5>
-                  <p className="mb-3 font-normal text-black dark:text-gray-400">
-                    {event.description}
-                  </p>
+
                   <p className="mb-1 font-normal text-black dark:text-gray-800">
                     <span className="font-semibold text-black">Date:</span>{" "}
                     {new Date(event.startTime).toLocaleDateString()}
                   </p>
                   <p className="mb-3 font-normal text-black dark:text-gray-800">
-                    <span className="font-semibold text-black">Time:</span>{" "}
-                    {new Date(event.startTime).toLocaleTimeString()}
+                    <span className="font-semibold text-black">Timings: </span>{" "}
+                    {new Date(event.startTime).toLocaleTimeString()}-
+                    {new Date(event.endTime).toLocaleTimeString()}
                   </p>
                 </div>
               </a>
