@@ -1,4 +1,3 @@
-import React from 'react';
 import EventProviderDocuments from '../components/EventProviderDocuments';
 import { useLocation } from 'react-router-dom';
 

@@ -1,9 +1,9 @@
-import React from "react";
+import EventProviderDashboardPage from "../components/EventProviderDashboardPage.jsx";
 
 function EventProviderDashboard(){
     return(
         <>
-        <h1>Event Provider Dashboard</h1>
+        <EventProviderDashboardPage/>
         </>
     );
 }
