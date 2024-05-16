@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 export default {
   content: [
     "./index.html",
@@ -7,6 +8,7 @@ export default {
     extend: {},
   },
   plugins: [
+    // eslint-disable-next-line no-undef
     require('tailwindcss'),
     require('autoprefixer'),
   ],

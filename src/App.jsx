@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,7 +9,7 @@ import HomePage from './Pages/HomePage.jsx';
 import AdminDashboard from './Pages/AdminDashboard.jsx';
 import Otp from './components/Otp.jsx';
 import AdminLoginPage from './Pages/AdminLoginPage.jsx';
-import AdminSignUp from './components/AdminSignUp.jsx';
+// import AdminSignUp from './components/AdminSignUp.jsx';
 import AdminSignUpPage from './Pages/AdminSignupPage.jsx';
 import EventProviderDashboard from './Pages/EventProviderDashboard.jsx';
 import UserDashboard from './Pages/UserDashboard.jsx';
@@ -20,6 +19,9 @@ import UserProfile from './components/UserProfile.jsx';
 import EventProviderDocumentPage from './Pages/EventProviderDocumentPage.jsx'
 import EventEnroll from './components/EventEnroll.jsx';
 import CancelEnroll from './components/CancelEnroll.jsx';
+import QRScannerPage from "./Pages/QRScannerPage.jsx";
+import UpdateEventPage from "./Pages/AttendeeListPage.jsx";
+
 function App() {
   return (
     <Router>
@@ -39,6 +41,10 @@ function App() {
         <Route  path="/eventproviderdocuments" element ={<EventProviderDocumentPage/>} />
         <Route path='/eventenroll/:eventId' element={<EventEnroll/>}/>
         <Route path='cancelenroll/:eventId' element={<CancelEnroll/>}/>
+        <Route  path="/qrscanner" element ={<QRScannerPage/>} />
+        <Route  path="/getAttendeeList" element ={<UpdateEventPage/>} />
+
+
        </Routes>
     </Router>
   );
