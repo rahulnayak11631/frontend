@@ -12,17 +12,17 @@ function UserDashboard() {
         <div className="flex justify-between items-center mb-6 pl-4">
           <h1 className="text-2xl font-bold pl-4">All Events</h1>
         </div>
-        <div className="grid gap-6 pl-4">
+        <div className="" style={{marginLeft:"90px"}}>
           {/* Sample event cards */}
           <GetEventsClickable />
         </div>
-        <div className="mt-8 pl-4">
+        {/* <div className="mt-8 pl-4">
           <FilterEvents />
-        </div>
+        </div> */}
         <div className="mt-12 grid gap-6 pl-4">
-          <h1 className="text-2xl font-bold">Enrolled Events</h1>
+          <h1 className="text-2xl font-bold pl-4">Enrolled Events</h1>
           {/* Add enrolled events component here */}
-          <div className="grid gap-6 pl-4">
+          <div className="" style={{marginLeft:"90px"}}>
           {/* Sample event cards */}
           <UserEnrollments />
         </div>

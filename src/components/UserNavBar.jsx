@@ -41,13 +41,17 @@ function UserNavBar() {
     navigate("/userprofile"); // Navigate to the user profile page
   };
 
+  const handleResultClick = (eventId) => {
+    navigate(`/eventenroll/${eventId}`); // Navigate to EventEnroll with eventId as param
+  };
+
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-gray-800 p-6">
+    <nav className="flex items-center justify-between flex-wrap bg-purple-800 p-6">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
         <span className="font-semibold text-xl tracking-tight">User Dashboard</span>
       </div>
       <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto relative text-center">
-        <div className="mx-auto text-gray-600" > {/* Center the search bar */}
+        <div className="mx-auto text-gray-600"> {/* Center the search bar */}
           <input
             className="border-2 border-gray-300 bg-white h-10 px-5 pr-8 rounded-lg text-sm focus:outline-none w-full md:w-96"
             type="search"
@@ -73,11 +77,9 @@ function UserNavBar() {
           </button>
         </div>
         {/* Display search results */}
-        <div className={`absolute top-full left-0 right-0 bg-white rounded-b-lg shadow-lg mt-2 overflow-hidden ${searchResults.length === 0 ? "hidden" : "block"}`}
-        style={{marginRight:"-50px"}}
-        >
+        <div className={`absolute top-full left-0 right-0 bg-white rounded-b-lg shadow-lg mt-2 overflow-hidden ${searchResults.length === 0 ? "hidden" : "block"}`}>
           {searchResults.map((result) => (
-            <div key={result.id} className="p-4 border-b border-gray-200">
+            <div key={result.eventId} className="p-4 border-b border-gray-200" onClick={() => handleResultClick(result.eventId)}>
               <p>{result.title}</p>
               <p>{result.description}</p>
             </div>

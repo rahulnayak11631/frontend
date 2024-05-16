@@ -19,6 +19,7 @@ import EmailForForgotPassword from './components/EmailForForgotPassword.jsx';
 import UserProfile from './components/UserProfile.jsx';
 import EventProviderDocumentPage from './Pages/EventProviderDocumentPage.jsx'
 import EventEnroll from './components/EventEnroll.jsx';
+import CancelEnroll from './components/CancelEnroll.jsx';
 function App() {
   return (
     <Router>
@@ -37,8 +38,7 @@ function App() {
         <Route path="/userprofile" element={<UserProfile />} />
         <Route  path="/eventproviderdocuments" element ={<EventProviderDocumentPage/>} />
         <Route path='/eventenroll/:eventId' element={<EventEnroll/>}/>
-        
-
+        <Route path='cancelenroll/:eventId' element={<CancelEnroll/>}/>
        </Routes>
     </Router>
   );
