@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
+
 const UpdateEventModal = ({ event, isOpen, first }) => {
   console.log(event);
 
@@ -101,6 +102,10 @@ const UpdateEventModal = ({ event, isOpen, first }) => {
   };
 
   const handleUpdateCoverImage = async () => {
+    if (!formData.coverImage) {
+          toast.error("Please select a cover image");
+          return;
+        }
     const formDataToSend = new FormData();
     formDataToSend.append("images", formData.coverImage);
     try {
@@ -145,7 +150,70 @@ const UpdateEventModal = ({ event, isOpen, first }) => {
       paymentRequired: event.paymentRequired,
       coverImage: null,
     });
+    if (event.coverImage) {
+      const imageUrl = URL.createObjectURL(event.coverImage);
+      setCoverImageUrl(imageUrl); // Assuming you have a state variable to store the cover image URL
+    }
   }, [event]);
+
+
+
+  //   if (!formData.coverImage) {
+  //     toast.error("Please select a cover image");
+  //     return;
+  //   }
+  
+  //   const formDataToSend = new FormData();
+  //   formDataToSend.append("images", formData.coverImage);
+  //   try {
+  //     const coverImageResponse = await fetch(
+  //       `http://localhost:8090/api/addcoverimage`,
+  //       {
+  //         method: "POST",
+  //         body: formDataToSend,
+  //         headers: {
+  //           EPToken: Cookies.get("token"),
+  //           event_id: Cookies.get("eventId"),
+  //         },
+  //       }
+  //     );
+  //     const responseData = await coverImageResponse.json(); // Parse response as JSON
+  //     if (!coverImageResponse.ok) {
+  //       throw new Error(responseData.message); // Throw an error with the server message
+  //     } else {
+  //       first(true);
+  //       toast.success("Cover Image updated Successfully");
+  //       document.getElementById("eventModal").style.display = "none";
+  //       setTimeout(() => {
+  //         navigate("/eventProviderDashboard");
+  //       }, 2000);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error("Failed to update cover image");
+  //   }
+  // };
+  
+
+  useEffect(() => {
+    setFormData({
+      title: event.title,
+      description: event.description,
+      location: event.location,
+      mode: event.mode,
+      startTime: event.startTime,
+      endTime: event.endTime,
+      maxCapacity: event.maxCapacity,
+      price: event.price,
+      paymentRequired: event.paymentRequired,
+      coverImage: null,
+    });
+    if (event.coverImage) {
+      const imageUrl = URL.createObjectURL(event.coverImage);
+      setCoverImageUrl(imageUrl); // Assuming you have a state variable to store the cover image URL
+    }
+  }, [event]);
+
 
   return (
     <>
@@ -176,7 +244,7 @@ const UpdateEventModal = ({ event, isOpen, first }) => {
               Update Event
             </h2>
             <form
-              className="mt-4 grid grid-cols-2 gap-4"
+              className="mt-4 grid grid-cols-2 gap-6"
               onSubmit={(e) => e.preventDefault()}
             >
               <div className="col-span-1">

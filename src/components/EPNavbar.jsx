@@ -1,7 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 const EPNavbar = () => {
+  const navigate = useNavigate();
+  
+  const handleSignout = () => {
+    // Cookies.remove("token");
+    // Cookies.remove("eventId");
+    // Cookies.remove("Id");
+    // Cookies.remove("email");
+    navigate("/login");
+  };
+  
   return (
     <nav
       className="px-1 py-1 flex justify-end items-center bg-gray-100 "
@@ -11,7 +22,7 @@ const EPNavbar = () => {
         Dashboard /<span className="font-semibold text-gray-700"> Home</span>
       </Link>
 
-      <form className="max-w-md mx-auto" style={{width:"40%"}}>
+      <form className="max-w-md mx-auto" style={{ width: "40%" }}>
         <label
           htmlFor="default-search"
           className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -52,12 +63,27 @@ const EPNavbar = () => {
         </div>
       </form>
 
-      <button className="flex items-center gap-3 px-3 normal-case ml-4 text-gray-500 font-semibold p-3 rounded-lg hover:bg-gray-300  cursor-pointer">
+      <button
+        className="flex items-center gap-3 px-3 normal-case ml-4 text-gray-500 font-semibold p-3 rounded-lg hover:bg-gray-300  cursor-pointer"
+        onClick={handleSignout}
 
-      <svg className="w-6 h-6 text-gray-800 dark:text-gray" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-</svg>
-        <span >Sign Out</span>
+      >
+        <svg
+          className="w-6 h-6 text-gray-800 dark:text-gray"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 14 10"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M1 5h12m0 0L9 1m4 4L9 9"
+          />
+        </svg>
+        <span>Sign Out</span>
       </button>
     </nav>
   );
