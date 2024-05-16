@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom";
 import "../Styles/Sidebar.css";
 import CreateEvent from "./CreateEvent";
 import axios from "axios";
+import GetAttendeeList from "./GetAttendeeList";
 
 function EventProviderDashboardPage() {
   const location = useLocation();
@@ -17,6 +18,7 @@ function EventProviderDashboardPage() {
   const [first, setfirst] = useState(false);
   const [clickAdd, setClickAdd] = useState(false);
   const [eventImages, setEventImages] = useState({});
+  const [attendeeList, setattendeeList] = useState(false);
 
   useEffect(() => {
     // Fetch events from the API endpoint
@@ -86,20 +88,18 @@ function EventProviderDashboardPage() {
     setSelectedItem(index);
   };
   
-  const handleItemClick = (e, index) => {
-    e.preventDefault();
-    handleClick(index);
-  };
-  
-  const handleOutsideClick = (e) => {
-    setSelectedItem(null); // Reset selectedItem when clicking outside
-  };
   
   const handleAddEvent = ()=>{
       // document.getElementById("CreateEvent").style.display = "";
       Cookies.set("CloseIcon", true);
       setClickAdd(true)    
+    
     };
+
+    const handleAttendeeList = ()=>{
+      setattendeeList(true);
+
+    }
 
     useEffect(() => {
       const fetchEvents = async () => {
@@ -185,8 +185,15 @@ function EventProviderDashboardPage() {
                 e.preventDefault();
                 if (index === 1) {
                   handleAddEvent();
+                  setattendeeList(false);
+                  document.getElementById("CreateEvent").style.display = "";
+                }
+                else if(index===2){
+                    handleAttendeeList();
                 } else {
                   handleClick(index);
+                  setattendeeList(false);
+
                 }
                 e.currentTarget.style.backgroundColor = "#ffffff";
                 e.currentTarget.style.color = "#1f2020";
@@ -213,7 +220,7 @@ function EventProviderDashboardPage() {
 
         <EPNavbar />
       </div>
-      <div className="flex flex-col items-center bg-gray-100">
+      {!attendeeList && <div className="flex flex-col items-center bg-gray-100">
         <div className="p-4 sm:ml-64 mt-5">
           <StatisticsCards />
           {selectedEvent && (
@@ -317,7 +324,8 @@ function EventProviderDashboardPage() {
           </div>
           <UpcomingEvents />
         </div>
-      </div>
+      </div>}
+      {attendeeList && <GetAttendeeList/>}
     </>
   );
 }

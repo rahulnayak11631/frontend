@@ -53,7 +53,8 @@ function CreateEvent({ Open }) {
 
       //   const dataResponse = response.data;
       if (!response.data.success) {
-        toast.error("Something went wrong");
+        console.log(response.data.message)
+        toast.error(response.data.message);
 
         // throw new Error("Failed to update event details");
       } else {
@@ -77,16 +78,24 @@ function CreateEvent({ Open }) {
         } z-50 bg-opacity-50 bg-gray-900`}
       >
         <div className="flex justify-center items-center h-screen ">
+       
           <form
-            className="p-4 md:p-5 rounded-lg shadow-md bg-gray-700"
+            className="p-4 md:p-5 rounded-lg shadow-md "
             onSubmit={handleSubmit}
-            style={{ maxWidth: "800px", margin: "0 auto", width: "100%" }}
+            style={{ maxWidth: "800px", margin: "0 auto", width: "100%" ,backgroundColor:"#d1d5db"}}
           >
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+        <button className="text-black " style={{marginLeft:"95%"}}  onClick={() =>
+                (document.getElementById("CreateEvent").style.display = "none")
+              }> <img
+              src="src/assets/XCircle.svg"
+              className="h-8 w-8  w-full "
+              alt="close"
+            /></button>
+            <div className="grid gap-4 grid-cols-1 pt-5 md:grid-cols-2" style={{marginTop:"-3%"}}>
               <div className="col-span-full">
                 <label
                   htmlFor="description"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
                 >
                   Description
                 </label>
@@ -104,7 +113,7 @@ function CreateEvent({ Open }) {
               <div className="col-span-1">
                 <label
                   htmlFor="title"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
                 >
                   Title
                 </label>
@@ -122,7 +131,7 @@ function CreateEvent({ Open }) {
               <div className="col-span-1">
                 <label
                   htmlFor="location"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
                 >
                   Location
                 </label>
@@ -140,7 +149,7 @@ function CreateEvent({ Open }) {
               <div className="col-span-1">
                 <label
                   htmlFor="mode"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
                 >
                   Mode
                 </label>
@@ -158,7 +167,7 @@ function CreateEvent({ Open }) {
               <div className="col-span-1">
                 <label
                   htmlFor="startTime"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
                 >
                   Start Time
                 </label>
@@ -175,7 +184,7 @@ function CreateEvent({ Open }) {
               <div className="col-span-1">
                 <label
                   htmlFor="endTime"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
                 >
                   End Time
                 </label>
@@ -193,7 +202,7 @@ function CreateEvent({ Open }) {
               <div className="col-span-1">
                 <label
                   htmlFor="maxCapacity"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
                 >
                   Max Capacity
                 </label>
@@ -211,7 +220,7 @@ function CreateEvent({ Open }) {
               <div className="col-span-1">
                 <label
                   htmlFor="paymentRequired"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
                 >
                   Payment Required
                 </label>
@@ -229,7 +238,7 @@ function CreateEvent({ Open }) {
               <div className="col-span-1">
                 <label
                   htmlFor="price"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
                 >
                   Price
                 </label>

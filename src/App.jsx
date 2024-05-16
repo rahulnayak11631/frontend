@@ -17,7 +17,7 @@ import ResetPassword from './components/ResetPassword.jsx';
 import EmailForForgotPassword from './components/EmailForForgotPassword.jsx';
 import EventProviderDocumentPage from './Pages/EventProviderDocumentPage.jsx'
 import QRScannerPage from "./Pages/QRScannerPage.jsx";
-import UpdateEventPage from "./Pages/UpdateEventPage.jsx";
+import UpdateEventPage from "./Pages/AttendeeListPage.jsx";
 
 function App() {
   return (
@@ -36,7 +36,7 @@ function App() {
         <Route  path="/emailforgotpassword" element ={<EmailForForgotPassword/>} />
         <Route  path="/eventproviderdocuments" element ={<EventProviderDocumentPage/>} />
         <Route  path="/qrscanner" element ={<QRScannerPage/>} />
-        <Route  path="/createEvent" element ={<UpdateEventPage/>} />
+        <Route  path="/getAttendeeList" element ={<UpdateEventPage/>} />
 
 
        </Routes>
