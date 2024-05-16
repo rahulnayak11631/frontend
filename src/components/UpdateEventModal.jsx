@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
+
 const UpdateEventModal = ({ event, isOpen, first }) => {
   console.log(event);
 
@@ -145,7 +146,12 @@ const UpdateEventModal = ({ event, isOpen, first }) => {
       paymentRequired: event.paymentRequired,
       coverImage: null,
     });
+    if (event.coverImage) {
+      const imageUrl = URL.createObjectURL(event.coverImage);
+      setCoverImageUrl(imageUrl); // Assuming you have a state variable to store the cover image URL
+    }
   }, [event]);
+
 
   return (
     <>
@@ -176,7 +182,7 @@ const UpdateEventModal = ({ event, isOpen, first }) => {
               Update Event
             </h2>
             <form
-              className="mt-4 grid grid-cols-2 gap-4"
+              className="mt-4 grid grid-cols-2 gap-6"
               onSubmit={(e) => e.preventDefault()}
             >
               <div className="col-span-1">
