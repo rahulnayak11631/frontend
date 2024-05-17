@@ -2,12 +2,22 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { apiConfig } from "../Constants/ApiConfig";
 import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
+import Cookies from 'js-cookie';
 
 function UserNavBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate(); // Initialize navigate function
+  
+  const handleSignout = () => {
+     Cookies.remove("token");
+     Cookies.remove("eventId");
+     Cookies.remove("Id");
+     Cookies.remove("email");
+     Cookies.remove("role");
 
+    navigate("/login");
+  };
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {
@@ -51,7 +61,7 @@ function UserNavBar() {
         <span className="font-semibold text-xl tracking-tight">User Dashboard</span>
       </div>
       <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto relative text-center">
-        <div className="mx-auto text-gray-600"> {/* Center the search bar */}
+        <div className="flex items-center justify-center mx-auto text-gray-600"> {/* Center the search bar */}
           <input
             className="border-2 border-gray-300 bg-white h-10 px-5 pr-8 rounded-lg text-sm focus:outline-none w-full md:w-96"
             type="search"
@@ -60,34 +70,31 @@ function UserNavBar() {
             value={searchQuery}
             onChange={handleChange}
           />
+        </div>
+        <div className="flex items-center space-x-2">  {/* Order buttons here */}
           <button
-            type="button"
-            className="absolute right-0 top-0 mt-3 mr-4"
+            className="flex items-center gap-3 px-3 normal-case ml-4 text-gray-500 font-semibold p-3 rounded-lg hover:bg-gray-300  cursor-pointer"
+            onClick={handleSignout}
           >
             <svg
-              className="text-gray-600 h-4 w-4 fill-current"
+              className="w-6 h-6 text-gray-800 dark:text-gray"
+              aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
+              fill="none"
+              viewBox="0 0 14 10"
             >
               <path
-                className="heroicon-ui"
-                d="M21.707 20.293l-5.3-5.3A7.95 7.95 0 0018 11c0-4.418-3.582-8-8-8s-8 3.582-8 8 3.582 8 8 8c1.739 0 3.348-.558 4.657-1.5l5.3 5.3c.191.192.45.297.707.297s.516-.105.707-.293c.391-.39.391-1.024 0-1.414zM4 11c0-3.309 2.691-6 6-6s6 2.691 6 6-2.691 6-6 6-6-2.691-6-6z"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M1 5h12m0 0L9 1m4 4L9 9"
               />
             </svg>
+            <span>Sign Out</span>
           </button>
-        </div>
-        {/* Display search results */}
-        <div className={`absolute top-full left-0 right-0 bg-white rounded-b-lg shadow-lg mt-2 overflow-hidden ${searchResults.length === 0 ? "hidden" : "block"}`}>
-          {searchResults.map((result) => (
-            <div key={result.eventId} className="p-4 border-b border-gray-200" onClick={() => handleResultClick(result.eventId)}>
-              <p>{result.title}</p>
-              <p>{result.description}</p>
-            </div>
-          ))}
-        </div>
-        <div className="flex -space-x-2">
           <img
-            className="inline-block h-8 w-8 rounded-full ring-2 ring-white cursor-pointer" // Add cursor-pointer class for mouse cursor
+            className="inline-block h-8 w-8 rounded-full ring-2 ring-white cursor-pointer"
             src="https://www.kindpng.com/picc/m/105-1055656_account-user-profile-avatar-avatar-user-profile-icon.png"
             alt=""
             onClick={handleAvatarClick} // Call handleAvatarClick function on click
@@ -96,6 +103,8 @@ function UserNavBar() {
       </div>
     </nav>
   );
+  
+    
 }
 
 export default UserNavBar;
