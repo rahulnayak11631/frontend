@@ -3,6 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { apiConfig } from "../Constants/ApiConfig";
 
 function GetEventProviders() {
   const [eventProviders, setEventProviders] = useState([]);
@@ -11,7 +12,7 @@ function GetEventProviders() {
     const fetchEventProviders = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8090/api/getalleventproviders"
+          `${apiConfig.baseURL}/getalleventproviders`
         );
         setEventProviders(response.data);
       } catch (error) {
@@ -31,7 +32,7 @@ function GetEventProviders() {
         organizerId: organizerId,
       };
       const response = await axios.get(
-        "http://localhost:8090/api/getimagesforep",
+        `${apiConfig.baseURL}/getimagesforep`,
         { headers }
       );
       const imageUrls = await response.data

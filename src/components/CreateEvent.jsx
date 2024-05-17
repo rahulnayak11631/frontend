@@ -3,6 +3,8 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import Cookies from "js-cookie";
 import UploadCoverImage from "./UploadCoverImage";
+import { apiConfig } from "../Constants/ApiConfig";
+
 
 function CreateEvent({ Open }) {
   const [formData, setFormData] = useState({
@@ -40,7 +42,7 @@ function CreateEvent({ Open }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8090/api/addevent",
+        `${apiConfig.baseURL}/addevent`,
         [formData],
         {
           headers: {
