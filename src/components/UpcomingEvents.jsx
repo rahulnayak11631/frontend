@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { apiConfig } from "../Constants/ApiConfig";
+
 
 const UpcomingEvents = () => {
   const [events, setEvents] = useState([]);
@@ -8,7 +10,7 @@ const UpcomingEvents = () => {
     // Fetch upcoming events from the API endpoint
     async function fetchEvents(async) {
       try {
-        const response = await fetch("http://localhost:8090/api/upcoming", {
+        const response = await fetch(`${apiConfig.baseURL}/upcoming`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

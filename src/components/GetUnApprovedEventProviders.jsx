@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Cookies from "js-cookie";
+import { apiConfig } from "../Constants/ApiConfig";
+
 
 function GetUnApprovedEventProviders() {
   const [eventProviders, setEventProviders] = useState([]);
@@ -12,7 +14,7 @@ function GetUnApprovedEventProviders() {
     const fetchEventProviders = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8090/api/getunapprovedeventproviders"
+          `${apiConfig.baseURL}/getunapprovedeventproviders`
         );
         setEventProviders(response.data);
       } catch (error) {
@@ -33,7 +35,7 @@ function GetUnApprovedEventProviders() {
         organizerId: organizerId,
       };
       const response = await axios.get(
-        "http://localhost:8090/api/getimagesforep",
+        `${apiConfig.baseURL}/getimagesforep`,
         { headers }
       );
       const imageUrls = await response.data;
@@ -60,7 +62,7 @@ function GetUnApprovedEventProviders() {
       };
 
       const response = await axios.post(
-        "http://localhost:8090/admin/approveEventProvider",
+        `${apiConfig.adminURL}//approveEventProvider`,
         {},
         { headers }
       );
@@ -87,7 +89,7 @@ function GetUnApprovedEventProviders() {
       };
 
       const response = await axios.post(
-        "http://localhost:8090/admin/denyEventProvider",
+        `${apiConfig.adminURL}//denyEventProvider`,
         {},
         {
           headers,

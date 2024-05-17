@@ -3,6 +3,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
+import { apiConfig } from "../Constants/ApiConfig";
+
 
 function GetAttendeeList() {
     const [events, setEvents] = useState([]);
@@ -13,7 +15,7 @@ function GetAttendeeList() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get("http://localhost:8090/api/getalleventbyorgid", {
+                const response = await axios.get(`${apiConfig.baseURL}/getalleventbyorgid`, {
                     headers: {
                         "Content-Type": "application/json",
                         "organizerId" : Cookies.get('Id'),
@@ -30,7 +32,7 @@ function GetAttendeeList() {
 
     const handleEventClick = async (eventId) => {
         try {
-            const response = await axios.get("http://localhost:8090/api/getAttendeeList", {
+            const response = await axios.get(`${apiConfig.baseURL}/getAttendeeList`, {
                 headers: {
                     "Content-Type": "application/json",
                     eventId: eventId,

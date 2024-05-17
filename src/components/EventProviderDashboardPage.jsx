@@ -10,6 +10,8 @@ import "../Styles/Sidebar.css";
 import CreateEvent from "./CreateEvent";
 import axios from "axios";
 import GetAttendeeList from "./GetAttendeeList";
+import { apiConfig } from "../Constants/ApiConfig";
+
 
 function EventProviderDashboardPage() {
   const location = useLocation();
@@ -25,7 +27,7 @@ function EventProviderDashboardPage() {
     async function fetchEvents() {
       try {
         const response = await fetch(
-          `http://localhost:8090/api/getalleventbyorgid`,
+          `${apiConfig.baseURL}/getalleventbyorgid`,
           {
             method: "GET",
             headers: {
@@ -61,7 +63,7 @@ function EventProviderDashboardPage() {
   useEffect(() => {
     async function fetchCompletedEvents() {
       try {
-        const response = await fetch("http://localhost:8090/api/completed", {
+        const response = await fetch(`${apiConfig.baseURL}/completed`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -104,7 +106,7 @@ function EventProviderDashboardPage() {
     useEffect(() => {
       const fetchEvents = async () => {
         try {
-            const response = await axios.get("http://localhost:8090/api/getalleventbyorgid", {
+            const response = await axios.get(`${apiConfig.baseURL}/getalleventbyorgid`, {
                 headers: {
                     "Content-Type": "application/json",
                     organizerId: Cookies.get("Id"),
@@ -122,7 +124,7 @@ function EventProviderDashboardPage() {
       const fetchEventImages = async (events) => {
           try {
               const imagePromises = events.map(event =>
-                  axios.get("http://localhost:8090/api/eventcoverimage", {
+                  axios.get(`${apiConfig.baseURL}/eventcoverimage`, {
                       headers: {
                           eventId: event.eventId
                       }

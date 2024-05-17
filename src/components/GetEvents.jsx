@@ -1,12 +1,14 @@
 import  { useState, useEffect } from "react";
 import axios from 'axios';
+import { apiConfig } from "../Constants/ApiConfig";
+
 function GetEvents() {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get("http://localhost:8090/api/getallevent");
+                const response = await axios.get(`${apiConfig.baseURL}/getallevent`);
                 setEvents(response.data);
             } catch (error) {
                 console.error("Error fetching events:", error);

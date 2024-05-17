@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { apiConfig } from "../Constants/ApiConfig";
 
 
 function Signup() {
@@ -50,7 +51,7 @@ function Signup() {
 
     if (Cookies.get("role") === "user") {
       const response = await axios.post(
-        `http://localhost:8090/api/adduser`,
+        `${apiConfig.baseURL}/adduser`,
         {
           userName: data.firstName + " " + data.lastName,
           email: data.email,
@@ -73,7 +74,7 @@ function Signup() {
 
     if (Cookies.get("role") === "eventprovider") {
       const response = await axios.post(
-        `http://localhost:8090/api/adduser`,
+        `${apiConfig.baseURL}/adduser`,
         {
           userName: data.firstName + " " + data.lastName,
           email: data.email,

@@ -39,7 +39,7 @@ function AdminSignUp() {
     
         if (Cookies.get("role")==="admin") {
           
-          const response= await axios.post(`http://localhost:8090/api/adduser`,{
+          const response= await axios.post(`${apiConfig.baseURL}/adduser`,{
             userName:data.firstName+" "+data.lastName,
             email:data.email,
             password:data.password
