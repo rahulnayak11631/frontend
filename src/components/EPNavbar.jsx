@@ -18,9 +18,9 @@ const EPNavbar = () => {
       className="px-1 py-1 flex justify-end items-center bg-gray-100 "
       style={{ width: "75%", marginLeft: "300px", marginTop: "12px" }}
     >
-      <Link to="/" className="text-gray-500 font-normal mr-auto">
+      <div className="text-gray-500 font-normal mr-auto">
         Dashboard /<span className="font-semibold text-gray-700"> Home</span>
-      </Link>
+      </div>
 
       <form className="max-w-md mx-auto" style={{ width: "40%" }}>
         <label

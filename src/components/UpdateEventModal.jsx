@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { apiConfig } from "../Constants/ApiConfig";
 
 
 const UpdateEventModal = ({ event, isOpen, first }) => {
@@ -72,7 +73,7 @@ const UpdateEventModal = ({ event, isOpen, first }) => {
 
     try {
       const updateResponse = await fetch(
-        `http://localhost:8090/api/updateevent`,
+        `${apiConfig.baseURL}/updateevent`,
         {
           method: "PUT",
           body: JSON.stringify(formData), // Convert object to JSON
@@ -110,7 +111,7 @@ const UpdateEventModal = ({ event, isOpen, first }) => {
     formDataToSend.append("images", formData.coverImage);
     try {
       const coverImageResponse = await fetch(
-        `http://localhost:8090/api/addcoverimage`,
+        `${apiConfig.baseURL}/addcoverimage`,
         {
           method: "POST",
           body: formDataToSend,
@@ -167,7 +168,7 @@ const UpdateEventModal = ({ event, isOpen, first }) => {
   //   formDataToSend.append("images", formData.coverImage);
   //   try {
   //     const coverImageResponse = await fetch(
-  //       `http://localhost:8090/api/addcoverimage`,
+  //       `${apiConfig.baseURL}/addcoverimage`,
   //       {
   //         method: "POST",
   //         body: formDataToSend,

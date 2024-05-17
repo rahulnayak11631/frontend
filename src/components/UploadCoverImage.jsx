@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiConfig } from "../Constants/ApiConfig";
 
 const UploadCoverImage = ({ event, isOpen, first }) => {
     console.log(event);
@@ -30,7 +31,7 @@ const UploadCoverImage = ({ event, isOpen, first }) => {
         formDataToSend.append("images", file);
         try {
           const coverImageResponse = await fetch(
-            `http://localhost:8090/api/addcoverimage`,
+            `${apiConfig.baseURL}/addcoverimage`,
             {
               method: "POST",
               body: formDataToSend,

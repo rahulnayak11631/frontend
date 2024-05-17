@@ -1,4 +1,5 @@
 import QRScanner from "../components/QRScanner.jsx";
+
 function QRScannerPage(){
     return(
         <>

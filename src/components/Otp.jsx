@@ -109,7 +109,7 @@ function Otp() {
 
           // Fetch user details by token
           const userDetailsResponse = await axios.get(
-            "http://localhost:8090/api/getuserdetailsbytoken",
+            `${apiConfig.baseURL}/getuserdetailsbytoken`,
             {
               headers: {
                 token: Cookies.get("token"),
@@ -170,7 +170,7 @@ function Otp() {
 
     if (Cookies.get("role") === "admin") {
       const response = await axios.post(
-        `http://localhost:8090/api/login`,
+        `${apiConfig.baseURL}/login`,
         {
           email: email,
           password: password,

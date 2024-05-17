@@ -10,6 +10,9 @@ import "../Styles/Sidebar.css";
 import CreateEvent from "./CreateEvent";
 import axios from "axios";
 import GetAttendeeList from "./GetAttendeeList";
+import { apiConfig } from "../Constants/ApiConfig";
+import QRScanner from "./QRScanner";
+
 
 function EventProviderDashboardPage() {
   const location = useLocation();
@@ -19,13 +22,14 @@ function EventProviderDashboardPage() {
   const [clickAdd, setClickAdd] = useState(false);
   const [eventImages, setEventImages] = useState({});
   const [attendeeList, setattendeeList] = useState(false);
+  const [showQRCode, setshowQRCode] = useState(false);
 
   useEffect(() => {
     // Fetch events from the API endpoint
     async function fetchEvents() {
       try {
         const response = await fetch(
-          `http://localhost:8090/api/getalleventbyorgid`,
+          `${apiConfig.baseURL}/getalleventbyorgid`,
           {
             method: "GET",
             headers: {
@@ -61,7 +65,7 @@ function EventProviderDashboardPage() {
   useEffect(() => {
     async function fetchCompletedEvents() {
       try {
-        const response = await fetch("http://localhost:8090/api/completed", {
+        const response = await fetch(`${apiConfig.baseURL}/completed`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -85,8 +89,12 @@ function EventProviderDashboardPage() {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleClick = (index) => {
-    setSelectedItem(index);
+    setSelectedItem(index === 0 ? null : index);
+    // setSelectedItem(index);
   };
+  const handleScanQR=()=>{
+    setshowQRCode(true);
+  }
   
   
   const handleAddEvent = ()=>{
@@ -104,7 +112,7 @@ function EventProviderDashboardPage() {
     useEffect(() => {
       const fetchEvents = async () => {
         try {
-            const response = await axios.get("http://localhost:8090/api/getalleventbyorgid", {
+            const response = await axios.get(`${apiConfig.baseURL}/getalleventbyorgid`, {
                 headers: {
                     "Content-Type": "application/json",
                     organizerId: Cookies.get("Id"),
@@ -122,7 +130,7 @@ function EventProviderDashboardPage() {
       const fetchEventImages = async (events) => {
           try {
               const imagePromises = events.map(event =>
-                  axios.get("http://localhost:8090/api/eventcoverimage", {
+                  axios.get(`${apiConfig.baseURL}/eventcoverimage`, {
                       headers: {
                           eventId: event.eventId
                       }
@@ -170,7 +178,7 @@ function EventProviderDashboardPage() {
       <span to className="py-6 px-8 text-center text-white font-bold">
         <h6>Event Provider Dashboard</h6>
       </span>
-      {["Dashboard", "Add Event", "Get Attendee List"].map(
+      {["Dashboard", "Add Event", "Get Attendee List","Scan-QR Code"].map(
         (item, index) => (
           <li key={index} className="list-item rounded-lg">
             <a
@@ -186,14 +194,24 @@ function EventProviderDashboardPage() {
                 if (index === 1) {
                   handleAddEvent();
                   setattendeeList(false);
+                  setshowQRCode(false);
                   document.getElementById("CreateEvent").style.display = "";
                 }
                 else if(index===2){
                     handleAttendeeList();
-                } else {
-                  handleClick(index);
+                    setshowQRCode(false);
+
+                }  else if(index===3){
+                  handleScanQR();
                   setattendeeList(false);
 
+
+              } 
+                else {
+                  handleClick(index);
+                  setattendeeList(false);
+                  setshowQRCode(false);
+                  
                 }
                 e.currentTarget.style.backgroundColor = "#ffffff";
                 e.currentTarget.style.color = "#1f2020";
@@ -220,13 +238,14 @@ function EventProviderDashboardPage() {
 
         <EPNavbar />
       </div>
-      {!attendeeList && <div className="flex flex-col items-center bg-gray-100">
+      {!attendeeList && !showQRCode && <div className="flex flex-col items-center bg-gray-100">
         <div className="p-4 sm:ml-64 mt-5">
           <StatisticsCards />
           {selectedEvent && (
             <UpdateEventModal
               event={selectedEvent}
               isOpen={true}
+              
               first={setfirst}
             />
           )}
@@ -325,7 +344,10 @@ function EventProviderDashboardPage() {
           <UpcomingEvents />
         </div>
       </div>}
-      {attendeeList && <GetAttendeeList/>}
+      {!showQRCode && attendeeList && <GetAttendeeList/>}
+      {
+        showQRCode && <QRScanner/>
+      }
     </>
   );
 }
