@@ -245,6 +245,7 @@ function EventProviderDashboardPage() {
             <UpdateEventModal
               event={selectedEvent}
               isOpen={true}
+              
               first={setfirst}
             />
           )}
