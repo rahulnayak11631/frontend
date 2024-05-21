@@ -1,21 +1,58 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Cookies from "js-cookie";
-const EPNavbar = () => {
+import { apiConfig } from "../Constants/ApiConfig";
+import UpdateEventModal from "./UpdateEventModal";
+
+const EPNavbar = ({setisOpenState}) => {
   const navigate = useNavigate();
-  
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
   const handleSignout = () => {
-    // Cookies.remove("token");
-    // Cookies.remove("eventId");
-    // Cookies.remove("Id");
-    // Cookies.remove("email");
+    Cookies.remove("token");
+    Cookies.remove("eventId");
+    Cookies.remove("Id");
+    Cookies.remove("email");
     navigate("/login");
   };
-  
+
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      if (searchQuery.trim() === "") {
+        setSearchResults([]);
+        return;
+      }
+      try {
+        const response = await axios.get(`${apiConfig.baseURL}/searchevents`, {
+          params: { topic: searchQuery },
+        });
+        setSearchResults(response.data);
+      } catch (error) {
+        console.error("Error searching events:", error);
+      }
+    };
+
+    fetchSearchResults();
+  }, [searchQuery]);
+
+  const handleChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleResultClick = (result) => {
+
+    setSelectedEvent(result);
+    setisOpenState(true)
+    document.getElementById("eventModal").style.display = "";
+    Cookies.set("CloseIcon", true);
+  };
+
   return (
     <nav
-      className="px-1 py-1 flex justify-end items-center bg-gray-100 "
+      className="px-1 py-1 flex justify-end items-center bg-gray-100"
       style={{ width: "75%", marginLeft: "300px", marginTop: "12px" }}
     >
       <div className="text-gray-500 font-normal mr-auto">
@@ -50,41 +87,32 @@ const EPNavbar = () => {
           <input
             type="search"
             id="default-search"
-            className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white-50 focus:ring-gray-500 focus:border-gray-400 dark:bg-white-700 dark:border-gray-300 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-gray-400 dark:focus:border-gray-400"
+            className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white-50 focus:ring-gray-500 focus:border-gray-400"
             placeholder="Search Events..."
             required
+            value={searchQuery}
+            onChange={handleChange}
           />
-          <button
-            type="submit"
-            className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Search
-          </button>
+        
+          {/* Display search results */}
+          <div className={`absolute top-full left-0 right-0 bg-white rounded-b-lg shadow-lg mt-2 overflow-hidden ${searchResults.length === 0 ? "hidden" : "block"}`}>
+            {searchResults.map((result) => (
+              <div key={result.eventId} className="p-4 border-b border-gray-200 cursor-pointer" onClick={() => handleResultClick(result)}>
+                <p className="font-bold">{result.title}</p>
+                <p>{result.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </form>
 
-      <button
-        className="flex items-center gap-3 px-3 normal-case ml-4 text-gray-500 font-semibold p-3 rounded-lg hover:bg-gray-300  cursor-pointer"
-        onClick={handleSignout}
-
-      >
-        <svg
-          className="w-6 h-6 text-gray-800 dark:text-gray"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 14 10"
-        >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M1 5h12m0 0L9 1m4 4L9 9"
-          />
-        </svg>
-        <span>Sign Out</span>
-      </button>
+      {selectedEvent && (
+        <UpdateEventModal
+          event={selectedEvent}
+          isOpen={true}
+          first={setSelectedEvent}
+        />
+      )}
     </nav>
   );
 };
