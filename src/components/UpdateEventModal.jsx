@@ -5,8 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { apiConfig } from "../Constants/ApiConfig";
 
 
-const UpdateEventModal = ({ event, isOpen, first }) => {
-  console.log(event);
+const UpdateEventModal = ({ event, isOpen, first ,isOpenState }) => {
+  // console.log(event);
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -159,43 +159,6 @@ const UpdateEventModal = ({ event, isOpen, first }) => {
 
 
 
-  //   if (!formData.coverImage) {
-  //     toast.error("Please select a cover image");
-  //     return;
-  //   }
-  
-  //   const formDataToSend = new FormData();
-  //   formDataToSend.append("images", formData.coverImage);
-  //   try {
-  //     const coverImageResponse = await fetch(
-  //       `${apiConfig.baseURL}/addcoverimage`,
-  //       {
-  //         method: "POST",
-  //         body: formDataToSend,
-  //         headers: {
-  //           EPToken: Cookies.get("token"),
-  //           event_id: Cookies.get("eventId"),
-  //         },
-  //       }
-  //     );
-  //     const responseData = await coverImageResponse.json(); // Parse response as JSON
-  //     if (!coverImageResponse.ok) {
-  //       throw new Error(responseData.message); // Throw an error with the server message
-  //     } else {
-  //       first(true);
-  //       toast.success("Cover Image updated Successfully");
-  //       document.getElementById("eventModal").style.display = "none";
-  //       setTimeout(() => {
-  //         navigate("/eventProviderDashboard");
-  //       }, 2000);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     toast.error("Failed to update cover image");
-  //   }
-  // };
-  
-
   useEffect(() => {
     setFormData({
       title: event.title,
@@ -214,7 +177,20 @@ const UpdateEventModal = ({ event, isOpen, first }) => {
       setCoverImageUrl(imageUrl); // Assuming you have a state variable to store the cover image URL
     }
   }, [event]);
+  useEffect(() => {
+    if (isOpen) {
+      // Open modal logic
+      document.getElementById("eventModal").style.display = "block";
+    } else {
+      // Close modal logic
+      document.getElementById("eventModal").style.display = "none";
+    }
+  }, [isOpen]);
+  
 
+  const handle = () => {
+    isOpenState(false); // Close the modal
+  };
 
   return (
     <>
@@ -227,9 +203,7 @@ const UpdateEventModal = ({ event, isOpen, first }) => {
         <div className="flex justify-center items-center h-screen">
           <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md ">
             <button
-              onClick={() =>
-                (document.getElementById("eventModal").style.display = "none")
-              }
+              onClick={handle}
               className=" text-gray-500  hover:text-gray-700 focus:outline-none  w-full flex justify-right"
               style={{ marginLeft: "48%",marginTop:"-3%"}}
             >
