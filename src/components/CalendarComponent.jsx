@@ -32,7 +32,7 @@ const CalendarComponent = () => {
 
         const eventDetailsResponses = await Promise.all(eventDetailsPromises);
         const eventDetails = eventDetailsResponses.map(response => response.data);
-        console.log(eventDetails);
+        //console.log(eventDetails);
         setEventsData(eventDetails);
       } catch (error) {
         toast.error('Failed to fetch events');
