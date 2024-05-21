@@ -66,13 +66,16 @@ const QRScanner = () => {
                 //     encryptedData: encodedData
                 // }
             });
-            if(response.data.success){
-                toast.success(response.data.message)
+            console.log(response)
+            if(response){
+                console.log("ananda")
+                toast.success(response.data)
+
             }
             else{
                 toast.error(response.data.message)
             }
-            console.log(response.data);
+            console.log(response);
         } catch (error) {
             toast.error(error.message);
             console.error('Error fetching data:', error);
