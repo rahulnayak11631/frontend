@@ -15,7 +15,10 @@ import EventProviderDashboard from './Pages/EventProviderDashboard.jsx';
 import UserDashboard from './Pages/UserDashboard.jsx';
 import ResetPassword from './components/ResetPassword.jsx';
 import EmailForForgotPassword from './components/EmailForForgotPassword.jsx';
+import UserProfile from './components/UserProfile.jsx';
 import EventProviderDocumentPage from './Pages/EventProviderDocumentPage.jsx'
+import EventEnroll from './components/EventEnroll.jsx';
+import CancelEnroll from './components/CancelEnroll.jsx';
 import QRScannerPage from "./Pages/QRScannerPage.jsx";
 import UpdateEventPage from "./Pages/AttendeeListPage.jsx";
 
@@ -34,7 +37,10 @@ function App() {
         <Route path="/userDashboard" element={<UserDashboard />} />
         <Route  path="/resetPassword" element ={<ResetPassword/>} />
         <Route  path="/emailforgotpassword" element ={<EmailForForgotPassword/>} />
+        <Route path="/userprofile" element={<UserProfile />} />
         <Route  path="/eventproviderdocuments" element ={<EventProviderDocumentPage/>} />
+        <Route path='/eventenroll/:eventId' element={<EventEnroll/>}/>
+        <Route path='cancelenroll/:eventId' element={<CancelEnroll/>}/>
         <Route  path="/qrscanner" element ={<QRScannerPage/>} />
         <Route  path="/getAttendeeList" element ={<UpdateEventPage/>} />
 
