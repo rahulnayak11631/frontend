@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { apiConfig } from "../Constants/ApiConfig";
 import { ToastContainer, toast } from "react-toastify";
-import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 
 function ResetPassword() {
   const [formData, setFormData] = useState({
@@ -12,6 +12,7 @@ function ResetPassword() {
     password: "",
     repeatPassword: "",
   });
+
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -19,28 +20,42 @@ function ResetPassword() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
+
+    if (!passwordRegex.test(formData.password)) {
+      toast.error("Password must be at least 6 characters long, include 1 special character, and 1 uppercase letter");
+      return;
+    }
+
+    if (formData.password !== formData.repeatPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
     // Prepare data to be submitted
     const data = {
       ...formData,
-      role: Cookies.get("role"), // Include the selected role in the data
+      role: Cookies.get("role"),
     };
     const headers = {
       role: Cookies.get("role"),
       passwordFromUser: data.password,
-      email: Cookies.get("email")
+      email: Cookies.get("email"),
     };
+
     try {
       const response = await axios.post(
         `${apiConfig.baseURL}/resetpassword`,
         {},
         { headers }
       );
-      const dataResponse = await response.data;
+      const dataResponse = response.data;
       if (dataResponse.success) {
         Cookies.set("token", dataResponse.token);
         toast.success(dataResponse.message);
         setTimeout(() => {
-          navigate("/login")
+          navigate("/login");
         }, 2000);
       } else {
         toast.error(dataResponse.message);
@@ -85,8 +100,8 @@ function ResetPassword() {
               <input
                 type="email"
                 name="email"
-                value={Cookies.get("email")} // Assuming the cookie name is "email"
-                readOnly // Make the input non-editable
+                value={Cookies.get("email")}
+                readOnly
                 id="floating_email"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder="Email address"
