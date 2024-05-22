@@ -53,7 +53,7 @@ const EPNavbar = ({setisOpenState}) => {
 
   return (
     <nav
-      className="px-1 py-1 flex justify-end items-center bg-gray-100"
+      className="px-1 py-1 flex justify-end items-center bg-gray-100 py-2 pb-4"
       style={{ width: "75%", marginLeft: "300px", marginTop: "12px" }}
     >
       <div className="text-gray-500 font-normal mr-auto">

@@ -84,7 +84,7 @@ const QRScanner = () => {
 
     return (
         <>
-        <div style={{ maxWidth: '300px', margin: 'auto' }}>
+        <div style={{ maxWidth: '300px', margin: 'auto', marginTop:"5%",marginLeft:"45%",position:"fixed"}}>
             <div style={{ maxWidth: '300px', maxHeight: '300px', margin: 'auto' }}>
                 <Scanner
                     onResult={handleScanResult}

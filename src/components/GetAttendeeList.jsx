@@ -47,8 +47,8 @@ function GetAttendeeList() {
 
     return (
         <>
-            <h1 className="text-center text-gray-800 text-2xl mt-5 mb-2 ml-5 font-bold font-xl">Events</h1>
-            <div className="flex flex-wrap justify-center ml-5">
+            <h1 className="text-center text-gray-800 text-2xl mt-5 mb-2 ml-20 font-bold font-xl "style={{"width":"77%",position:"relative",marginLeft:"20%"}}>Events</h1>
+            <div className="flex flex-wrap justify-center ml-5"style={{width:"75%",marginLeft:"20%"}}>
                 {events.map((event) => (
                     <div key={event.eventId} className="m-4 cursor-pointer" onClick={() => handleEventClick(event.eventId)}>
                         <div className="bg-gray-200 p-4 rounded-lg shadow-md ">
@@ -60,7 +60,7 @@ function GetAttendeeList() {
                 ))}
             </div>
 
-            <Modal styles={{borderRadius:"10px"}} className="border border-blue-900" open={openModal} onClose={() => setOpenModal(false)} center>
+            <Modal styles={{borderRadius:"10px"}} className="" open={openModal} onClose={() => setOpenModal(false)} center>
                 <h2 className="text-center mb-3 font-medium text-gray">Attendee List</h2>
                 {attendees.length === 0 ? (
                     <p className="text-center mt-3">No attendees for this event</p>
