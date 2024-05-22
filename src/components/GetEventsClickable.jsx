@@ -173,6 +173,10 @@ function GetEventsClickable() {
                   {new Date(event.endTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
                 </p>
               </div>
+                <p className="mb-1 mt-1 font-semibold text-gray-600 dark:text-gray-800">
+                      <span className="font-semibold text-gray-600">Date:</span>{" "}
+                      {new Date(event.startTime).toLocaleDateString()}
+                    </p>
             </div>
           </div>
         ))}

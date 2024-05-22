@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { apiConfig } from "../Constants/ApiConfig";
-import { useNavigate } from "react-router-dom"; // Import useNavigate hook
+import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 function UserEnrollments() {
   const [enrollments, setEnrollments] = useState([]);
   const [eventDetails, setEventDetails] = useState([]);
   const [coverImages, setCoverImages] = useState({});
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEnrollments = async () => {
@@ -75,29 +76,55 @@ function UserEnrollments() {
     }
   }, [eventDetails]);
 
-  const handleClick = (eventId) => {
-    navigate(`/cancelenroll/${eventId}`); // Navigate to cancelenroll page with eventId
+  const handleClick = (eventId, status) => {
+    if (status === "Completed") {
+      navigate(`/rateandreview/${eventId}`);
+    } else {
+      navigate(`/cancelenroll/${eventId}`);
+    }
+  };
+
+  const getStatus = (startTime, endTime) => {
+    const now = moment();
+    const start = moment(startTime);
+    const end = moment(endTime);
+    if (end.isBefore(now)) {
+      return "Completed";
+    }
+    return `${start.diff(now, 'days')} days left`;
   };
 
   return (
-    <div className="grid grid-cols-3 mt-4 gap-3 ml-13">
-        {eventDetails.map((eventDetail, index) => (
-            <div key={index} onClick={() => handleClick(eventDetail.eventId)} className="max-w-sm rounded overflow-hidden shadow-lg cursor-pointer">
-                <img className="w-full" src={coverImages[eventDetail.eventId] || "default-image.jpg"} alt="Event" />
-                <div className="px-6 py-4">
-                    <div className="font-bold text-xl mb-2">{eventDetail.title}</div>
-                    <p className="text-gray-700 text-base">{eventDetail.description}</p>
-                </div>
-                <div className="px-6 py-4">
-                    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{eventDetail.location}</span>
-                    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{eventDetail.startTime}</span>
-                    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">{eventDetail.endTime}</span>
-                </div>
-            </div>
-        ))}
+    <div className="overflow-x-auto">
+      <table className="min-w-full bg-white border border-black-900 rounded-lg overflow-hidden">
+        <thead className="bg-gray-200">
+          <tr>
+            <th className="py-3 px-4 border-b border-gray-200">Cover Image</th>
+            <th className="py-3 px-4 border-b border-gray-200">Event Title</th>
+            <th className="py-3 px-4 border-b border-gray-200">Location</th>
+            <th className="py-3 px-4 border-b border-gray-200">Date</th>
+            <th className="py-3 px-4 border-b border-gray-200">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {eventDetails.map((eventDetail, index) => {
+            const status = getStatus(eventDetail.startTime, eventDetail.endTime);
+            return (
+              <tr key={index} onClick={() => handleClick(eventDetail.eventId, status)} className="cursor-pointer hover:bg-gray-50">
+                <td className="py-3 px-4 border-b border-gray-200">
+                  <img className="w-32 h-20 object-cover rounded" src={coverImages[eventDetail.eventId] || "/default-image.jpg"} alt="Event" />
+                </td>
+                <td className="py-3 px-4 border-b border-gray-200 ">{eventDetail.title}</td>
+                <td className="py-3 px-4 border-b border-gray-200">{eventDetail.location}</td>
+                <td className="py-3 px-4 border-b border-gray-200">{moment(eventDetail.startTime).format('MMMM Do YYYY, h:mm a')}</td>
+                <td className="py-3 px-4 border-b border-gray-200">{status}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
-);
-
+  );
 }
 
 export default UserEnrollments;
