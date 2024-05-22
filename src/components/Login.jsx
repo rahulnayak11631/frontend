@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import "../Styles/Loader.css";
@@ -11,7 +11,6 @@ function Login() {
   const defaultRole = "eventprovider";
   const [role, setRole] = useState(defaultRole);
   const [loading, setLoading] = useState(false);
-
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePassword = () => {
@@ -25,15 +24,13 @@ function Login() {
   };
 
   useEffect(() => {
-    console.log(role);
-  }, [role]);
-
-  useEffect(() => {
     const storedRole = Cookies.get("role");
-    if (storedRole) {
+    if (!storedRole) {
+      Cookies.set("role", defaultRole);
+    } else {
       setRole(storedRole);
     }
-  }, []);
+  }, [defaultRole]);
 
   const navigate = useNavigate();
 
@@ -76,12 +73,7 @@ function Login() {
         Cookies.set("email", data.email);
         Cookies.set("password", data.password);
 
-        if (Cookies.get("role") === "eventprovider") {
-          toast.success(dataResponse.message);
-          setTimeout(() => {
-            navigate("/otp");
-          }, 2000);
-        } else if (Cookies.get("role") === "user") {
+        if (Cookies.get("role") === "eventprovider" || Cookies.get("role") === "user") {
           toast.success(dataResponse.message);
           setTimeout(() => {
             navigate("/otp");

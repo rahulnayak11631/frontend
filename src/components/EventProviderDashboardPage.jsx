@@ -167,6 +167,7 @@ function EventProviderDashboardPage() {
             color: "#fbfbfb",
             borderRadius: "10px",
             bottom: "10px",
+            position:"fixed"
           }}
         >
           <div className="h-full pb-4">
