@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { apiConfig } from "../Constants/ApiConfig";
 import UpdateEventModal from "./UpdateEventModal";
 
-const EPNavbar = ({setisOpenState}) => {
+const EPNavbar = ({ setisOpenState }) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -43,29 +43,21 @@ const EPNavbar = ({setisOpenState}) => {
   };
 
   const handleResultClick = (result) => {
-
     setSelectedEvent(result);
-    setisOpenState(true)
+    setisOpenState(true);
     document.getElementById("eventModal").style.display = "";
     Cookies.set("CloseIcon", true);
   };
 
-
   return (
-    <nav
-      className="px-1 py-1 flex justify-end items-center bg-gray-100 py-2 pb-4"
-      style={{ width: "75%", marginLeft: "300px", marginTop: "12px" }}
-    >
+    <nav className="relative z-10 px-1 py-1 flex justify-end items-center bg-gray-100 py-2 pb-4" style={{ width: "75%", marginLeft: "300px", marginTop: "12px" }}>
       <div className="text-gray-500 font-normal mr-auto">
         Dashboard /<span className="font-semibold text-gray-700"> Home</span>
       </div>
-  
-      <div className=" w-full flex flex-row justify-end items-center space-x-4 mr-4" >
+
+      <div className="w-full flex flex-row justify-end items-center space-x-4 mr-4">
         <form className="flex flex-row items-center space-x-4" style={{ width: "60%" }}>
-          <label
-            htmlFor="default-search"
-            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-          >
+          <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
             Search
           </label>
           <div className="relative flex-grow">
@@ -95,19 +87,23 @@ const EPNavbar = ({setisOpenState}) => {
               value={searchQuery}
               onChange={handleChange}
             />
-          
+
             {/* Display search results */}
-            <div className={`absolute top-full left-0 right-0 bg-white rounded-b-lg shadow-lg mt-2 overflow-hidden ${searchResults.length === 0 ? "hidden" : "block"}`}>
+            <div className={`absolute top-full left-0 right-0 bg-white rounded-b-lg shadow-lg mt-2 overflow-y-auto max-h-60 transition-all duration-300 ease-in-out ${searchResults.length === 0 ? "hidden" : "block"}`}>
               {searchResults.map((result) => (
-                <div key={result.eventId} className="p-4 border-b border-gray-200 cursor-pointer" onClick={() => handleResultClick(result)}>
+                <div
+                  key={result.eventId}
+                  className="p-4 border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors duration-200"
+                  onClick={() => handleResultClick(result)}
+                >
                   <p className="font-bold">{result.title}</p>
-                  <p>{result.description}</p>
+                  <p className="text-sm text-gray-700">{result.description}</p>
                 </div>
               ))}
             </div>
           </div>
         </form>
-  
+
         <button
           className="flex items-center gap-3 px-3 normal-case text-gray-500 font-semibold p-3 rounded-lg hover:bg-gray-300 cursor-pointer"
           onClick={handleSignout}
@@ -130,17 +126,12 @@ const EPNavbar = ({setisOpenState}) => {
           <span>Sign Out</span>
         </button>
       </div>
-  
+
       {selectedEvent && (
-        <UpdateEventModal
-          event={selectedEvent}
-          isOpen={true}
-          first={setSelectedEvent}
-        />
+        <UpdateEventModal event={selectedEvent} isOpen={true} first={setSelectedEvent} />
       )}
     </nav>
   );
-  
 };
 
 export default EPNavbar;

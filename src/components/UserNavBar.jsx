@@ -3,10 +3,12 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { apiConfig } from "../Constants/ApiConfig";
 import { useNavigate } from "react-router-dom";
+import UserProfile from "./UserProfile"; // Import the UserProfile component
 
 function UserNavBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [showUserProfile, setShowUserProfile] = useState(false); // State to toggle user profile display
   const navigate = useNavigate();
 
   const handleSignout = () => {
@@ -23,22 +25,19 @@ function UserNavBar() {
       try {
         const response = await axios.get(`${apiConfig.baseURL}/searchevents`, {
           params: {
-            topic: searchQuery // Assuming "topic" is the parameter expected by your backend
-          }
+            topic: searchQuery,
+          },
         });
 
-        setSearchResults(response.data); // Update search results state
+        setSearchResults(response.data);
       } catch (error) {
         console.error("Error searching events:", error);
-        // Handle errors, e.g., display an error message to the user
       }
     };
 
-    // Fetch search results when searchQuery changes
     if (searchQuery.trim() !== "") {
       fetchSearchResults();
     } else {
-      // Reset search results if search query is empty
       setSearchResults([]);
     }
   }, [searchQuery]);
@@ -48,20 +47,22 @@ function UserNavBar() {
   };
 
   const handleAvatarClick = () => {
-    navigate("/userprofile"); // Navigate to the user profile page
+    setShowUserProfile(!showUserProfile); // Toggle user profile display
   };
 
   const handleResultClick = (eventId) => {
-    navigate(`/eventenroll/${eventId}`); // Navigate to EventEnroll with eventId as param
+    navigate(`/eventenroll/${eventId}`);
   };
 
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-purple-800 p-6">
+    <nav className="flex items-center justify-between flex-wrap bg-black p-6">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
-        <span className="font-semibold text-xl tracking-tight">User Dashboard</span>
+        <span className="font-semibold text-xl tracking-tight">
+          User Dashboard
+        </span>
       </div>
       <div className="flex flex-grow items-center justify-center relative">
-        <div className="text-gray-600 w-full max-w-lg"> {/* Center the search bar */}
+        <div className="text-gray-600 w-full max-w-lg">
           <input
             className="border-2 border-gray-300 bg-white h-10 px-5 pr-8 rounded-lg text-sm focus:outline-none w-full"
             type="search"
@@ -70,27 +71,25 @@ function UserNavBar() {
             value={searchQuery}
             onChange={handleChange}
           />
-          <button
-            type="button"
-            className="absolute right-0 top-0 mt-3 mr-4"
+          <div
+            className={`absolute top-full bg-white rounded-b-lg shadow-lg mt-2 overflow-hidden z-50 ${
+              searchResults.length === 0 ? "hidden" : "block"
+            }`}
+            style={{
+              width: "50%",
+              minHeight: "100px",
+              maxHeight: "400px",
+              overflowY: "auto",
+            }}
           >
-            <svg
-              className="text-gray-600 h-4 w-4 fill-current"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path
-                className="heroicon-ui"
-                d="M21.707 20.293l-5.3-5.3A7.95 7.95 0 0018 11c0-4.418-3.582-8-8-8s-8 3.582-8 8 3.582 8 8 8c1.739 0 3.348-.558 4.657-1.5l5.3 5.3c.191.192.45.297.707.297s.516-.105.707-.293c.391-.39.391-1.024 0-1.414zM4 11c0-3.309 2.691-6 6-6s6 2.691 6 6-2.691 6-6 6-6-2.691-6-6z"
-              />
-            </svg>
-          </button>
-          {/* Display search results */}
-          <div className={`absolute top-full left-0 right-0 bg-white rounded-b-lg shadow-lg mt-2 overflow-hidden ${searchResults.length === 0 ? "hidden" : "block"}`}>
             {searchResults.map((result) => (
-              <div key={result.eventId} className="p-4 border-b border-gray-200 cursor-pointer" onClick={() => handleResultClick(result.eventId)}>
+              <div
+                key={result.eventId}
+                className="p-4 border-b border-gray-200 cursor-pointer transition-transform transform hover:scale-105"
+                onClick={() => handleResultClick(result.eventId)}
+              >
                 <p className="font-bold">{result.title}</p>
-                <p>{result.description}</p>
+                <p>{result.location}</p>
               </div>
             ))}
           </div>
@@ -98,15 +97,16 @@ function UserNavBar() {
       </div>
       <div className="flex items-center space-x-4">
         <button
-          className="flex items-center gap-3 px-3 normal-case text-gray-500 font-semibold p-3 rounded-lg hover:bg-gray-300 cursor-pointer"
+          className="flex items-center gap-3 px-3 normal-case text-white font-semibold p-3 rounded-lg hover:bg-gray-300 hover:text-black cursor-pointer"
           onClick={handleSignout}
         >
           <svg
-            className="w-6 h-6 text-gray-800 dark:text-gray"
+            className="w-6 h-6 text-white dark:text-white"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 14 10"
+            style={{ transition: "color 0.3s ease" }}
           >
             <path
               stroke="currentColor"
@@ -125,6 +125,7 @@ function UserNavBar() {
           onClick={handleAvatarClick}
         />
       </div>
+      {showUserProfile && <UserProfile />} {/* Render UserProfile if showUserProfile is true */}
     </nav>
   );
 }

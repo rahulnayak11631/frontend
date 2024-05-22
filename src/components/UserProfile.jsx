@@ -35,12 +35,12 @@ function UserProfile() {
           <h1 className="text-2xl font-semibold text-gray-800 mb-4">User Profile</h1>
           {userData && (
             <div>
-              <div className="mb-2">
-                <label className="block text-sm font-medium text-gray-600">Username:</label>
+              <div className="flex mb-2">
+                <label className="block text-sm font-medium text-gray-600 w-1/3">Username:</label>
                 <p className="text-sm text-gray-800">{userData.userName}</p>
               </div>
-              <div className="mb-2">
-                <label className="block text-sm font-medium text-gray-600">Email:</label>
+              <div className="flex mb-2">
+                <label className="block text-sm font-medium text-gray-600 w-1/3">Email:</label>
                 <p className="text-sm text-gray-800">{userData.email}</p>
               </div>
               {/* Add more user details as needed */}
