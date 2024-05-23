@@ -1,41 +1,177 @@
-import  { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { apiConfig } from "../Constants/ApiConfig";
 
 function GetEvents() {
-    const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [eventImages, setEventImages] = useState({});
+  const [organizationNames, setOrganizationNames] = useState({});
 
-    useEffect(() => {
-        const fetchEvents = async () => {
-            try {
-                const response = await axios.get(`${apiConfig.baseURL}/getallevent`);
-                setEvents(response.data);
-            } catch (error) {
-                console.error("Error fetching events:", error);
-            }
-        };
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get(`${apiConfig.baseURL}/getallevent`);
+        const eventsData = response.data;
+        setEvents(eventsData);
+        fetchEventImages(eventsData);
+        fetchEventOrganizations(eventsData);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
 
-        fetchEvents();
-    }, []);
+    const fetchEventImages = async (events) => {
+      try {
+        const imagePromises = events.map((event) =>
+          axios.get(`${apiConfig.baseURL}/eventcoverimage`, {
+            headers: {
+              eventId: event.eventId,
+            },
+          })
+        );
 
-    return (
-        <div className="grid mt-4 gap-4 mx-2">
-            {events.map(event => (
-                <a key={event.eventId} href="#" className="flex items-center bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                    <img className="object-cover w-48 h-49 rounded-l-lg" src={"image-4.jpg"} alt="" />
-                    <div className="flex flex-col p-4">
-                        <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{event.title}</h5>
-                        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{event.description}</p>
-                        <div className="mt-auto">
-                            <p className="text-sm text-gray-500">Location: {event.location}</p>
-                            <p className="text-sm text-gray-500">Start Time: {event.startTime}</p>
-                            <p className="text-sm text-gray-500">End Time: {event.endTime}</p>
-                        </div>
-                    </div>
-                </a>
-            ))}
-        </div>
-    );
+        const imagesResponses = await Promise.all(imagePromises);
+        const images = imagesResponses.map((response) => response.data);
+
+        const imageMap = {};
+        images.forEach((imageArray) => {
+          imageArray.forEach((image) => {
+            imageMap[image.eventId] = image.imageURL;
+          });
+        });
+
+        setEventImages(imageMap);
+      } catch (error) {
+        console.error("Error fetching event images:", error);
+      }
+    };
+
+    const fetchEventOrganizations = async (events) => {
+      try {
+        const organizationPromises = events.map((event) =>
+          handleOrganizerName(event)
+        );
+
+        const organizationNamesArray = await Promise.all(organizationPromises);
+        
+        const organizationMap = {};
+        events.forEach((event, index) => {
+          organizationMap[event.eventId] = organizationNamesArray[index];
+        });
+
+        setOrganizationNames(organizationMap);
+      } catch (error) {
+        console.error("Error fetching event organizations:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  const handleOrganizerName = async (event) => {
+    try {
+      const response = await axios.get(`${apiConfig.baseURL}/getEPDetailsById`, {
+        headers: {
+          id: event.eventOrgId,
+        },
+      });
+
+      const organizerName = response.data.orgName;
+      return organizerName;
+    } catch (error) {
+      console.error("Error fetching organizer details:", error);
+      return null;
+    }
+  };
+
+  const getOrganizationColorClass = (orgName) => {
+    if (typeof orgName !== 'string') {
+      return "bg-gray-200";
+    }
+
+    const hashCode = orgName.split('').reduce((hash, char) => {
+      hash = ((hash << 5) - hash) + char.charCodeAt(0);
+      return hash & hash;
+    }, 0);
+
+    const colorClasses = [
+      "bg-blue-200",
+      "bg-green-200",
+      "bg-yellow-200",
+      "bg-pink-200",
+      "bg-purple-200",
+      "bg-indigo-200",
+      "bg-red-200",
+      "bg-gray-200",
+    ];
+    const index = Math.abs(hashCode % colorClasses.length);
+    return colorClasses[index];
+  };
+
+  return (
+    <div className="container mx-auto px-4 py-8 flex justify-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {events.map((event) => (
+          <div
+            key={event.eventId}
+            className="rounded-lg bg-white overflow-hidden shadow-lg transform transition-transform hover:scale-105"
+            style={{ maxWidth: "400px" }}
+          >
+            <img
+              className="w-full h-64 object-cover rounded-t-lg"
+              src={eventImages[event.eventId] || "/default-image.jpg"}
+              alt="Event"
+            />
+            <div className="p-4">
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-xl font-semibold text-gray-800">
+                  {event.title}
+                </h3>
+                <p className={`text-sm text-gray-600 ${getOrganizationColorClass(organizationNames[event.eventId])} rounded-lg px-2 py-1`}>
+                  {organizationNames[event.eventId]}
+                </p>
+              </div>
+              <div className="flex items-center mb-2">
+                <svg
+                  className="w-4 h-4 fill-current text-gray-600 mr-2"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 2.5c-3.512 0-6.39 2.871-6.39 6.413 0 2.066.996 3.458 2.31 4.838 1.073 1.128 2.423 2.537 3.547 4.158.356.475.726.963 1.064 1.471.34-.508.71-.996 1.066-1.471 1.123-1.621 2.474-3.03 3.547-4.158 1.314-1.38 2.31-2.772 2.31-4.838 0-3.542-2.878-6.413-6.39-6.413zM10 17.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <p className="text-sm text-gray-600">{event.location}</p>
+              </div>
+              <div className="flex items-center">
+                <svg
+                  className="w-4 h-4 fill-current text-gray-600 mr-2"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M3 10a7 7 0 1114 0 7 7 0 01-14 0zm7-9a9 9 0 100 18 9 9 0 000-18zm.293 12.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 1.414L9 12.586l2.293-2.293z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <p className="text-sm text-gray-600">
+                  {new Date(event.startTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} -{' '}
+                  {new Date(event.endTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
+                </p>
+              </div>
+              <p className="mb-1 mt-1 font-semibold text-gray-600 dark:text-gray-800">
+                <span className="font-semibold text-gray-600">Date:</span>{" "}
+                {new Date(event.startTime).toLocaleDateString()}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default GetEvents;
