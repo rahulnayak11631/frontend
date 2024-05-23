@@ -4,6 +4,7 @@ import FilterEvents from "../components/FilterEvents.jsx";
 import UserEnrollments from "../components/UserEnrollments.jsx";
 import GetEventsClickable from "../components/GetEventsClickable.jsx";
 import CalendarComponent from "../components/CalendarComponent.jsx";
+import FooterComponent from "../components/FooterComponent.jsx";
 
 function UserDashboard() {
   return (
@@ -27,12 +28,10 @@ function UserDashboard() {
           {/* Sample event cards */}
           <UserEnrollments />
         </div>
-        <div className="mt-12 grid gap-6 pl-4">
-        <h1 className="text-2xl font-bold pl-4">Calendar</h1>
-        <CalendarComponent/>
-        </div>
+        
         </div>
       </div>
+      <FooterComponent/>
     </div>
   );
 }

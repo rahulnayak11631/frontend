@@ -21,6 +21,8 @@ import EventEnroll from './components/EventEnroll.jsx';
 import CancelEnroll from './components/CancelEnroll.jsx';
 import QRScannerPage from "./Pages/QRScannerPage.jsx";
 import UpdateEventPage from "./Pages/AttendeeListPage.jsx";
+import EventsCalendarPage from "./Pages/EventsCalendarPage.jsx";
+import Animate from "./Pages/Animate.jsx";
 
 function App() {
   return (
@@ -43,6 +45,9 @@ function App() {
         <Route path='cancelenroll/:eventId' element={<CancelEnroll/>}/>
         <Route  path="/qrscanner" element ={<QRScannerPage/>} />
         <Route  path="/getAttendeeList" element ={<UpdateEventPage/>} />
+        <Route  path="/eventsCalendar" element ={<EventsCalendarPage/>} />
+        <Route  path="/animate" element ={<Animate/>} />
+
 
 
        </Routes>
