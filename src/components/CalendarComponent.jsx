@@ -32,7 +32,6 @@ const CalendarComponent = () => {
 
         const eventDetailsResponses = await Promise.all(eventDetailsPromises);
         const eventDetails = eventDetailsResponses.map(response => response.data);
-        //console.log(eventDetails);
         setEventsData(eventDetails);
       } catch (error) {
         toast.error('Failed to fetch events');
@@ -47,26 +46,30 @@ const CalendarComponent = () => {
     setSelectedDate(date);
     const formattedDate = format(date, 'yyyy-MM-dd');
     const eventsForDate = eventsData.filter(event => event.startTime.split('T')[0] === formattedDate);
-    //console.log(formattedDate, eventsForDate);
     setEvents(eventsForDate);
+  };
+
+  // Function to generate tile content for calendar
+  const tileContent = ({ date, view }) => {
+    if (view === 'month') {
+      const formattedDate = format(date, 'yyyy-MM-dd');
+      const eventsForDate = eventsData.filter(event => event.startTime.split('T')[0] === formattedDate);
+      return eventsForDate.length > 0 ? <div className="bg-blue-500 rounded-full h-1 w-1 mx-auto"></div> : null;
+    }
   };
 
   return (
     <>
-      {/* <nav className="flex items-center justify-between flex-wrap bg-purple-800 p-6">
-        <div className="flex items-center flex-shrink-0 text-white mr-6">
-          <span className="font-semibold text-xl tracking-tight">Event Calendar</span>
-        </div>
-      </nav> */}
       <div className="container mx-auto py-8">
-        <div className="max-w-2xl mx-auto bg-white shadow-md rounded-lg overflow-hidden my-8 p-6">
+        <div className="max-w-2xl mx-auto bg-gray-600 mt-4 shadow-md rounded-lg overflow-hidden my-8 p-6">
           <Calendar
             onChange={handleDateChange}
             value={selectedDate}
             className="mx-auto mb-6"
             tileClassName="text-center"
+            tileContent={tileContent} // This adds custom content to calendar tiles
           />
-          <div className="p-4 bg-gray-100">
+          <div className="p-4 bg-gray-100 rounded-lg">
             <h1 className="text-2xl font-semibold text-gray-800 mb-4">Events on {selectedDate.toDateString()}</h1>
             {events.length > 0 ? (
               events.map((event, index) => (

@@ -20,6 +20,10 @@ function UserNavBar() {
     navigate("/login");
   };
 
+  const handleCalendar= () =>{
+    navigate("/eventsCalendar")
+  }
+
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {
@@ -53,11 +57,21 @@ function UserNavBar() {
   const handleResultClick = (eventId) => {
     navigate(`/eventenroll/${eventId}`);
   };
+  const navigateToUserDashboard = () => {
+    navigate("/userDashboard");
+  };
 
   return (
     <nav className="flex items-center justify-between flex-wrap bg-black p-4">
-      <div className="flex items-center flex-shrink-0 text-white mr-6">
-        <span className="font-semibold text-xl tracking-tight">
+      <div
+        className="flex items-center flex-shrink-0 text-white mr-6"
+        onClick={navigateToUserDashboard}
+        style={{ cursor: "pointer" }} // Inline style to change cursor to pointer on hover
+      >
+        <span
+          id="UserDashboard"
+          className="font-semibold text-xl tracking-tight"
+        >
           User Dashboard
         </span>
       </div>
@@ -96,26 +110,39 @@ function UserNavBar() {
         </div>
       </div>
       <div className="flex items-center space-x-4">
+        <button className="text-white" onClick={handleCalendar}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="size-6"
+          >
+            <path d="M12.75 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM7.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM8.25 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM9.75 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM10.5 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12.75 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM14.25 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
+            <path
+              fill-rule="evenodd"
+              d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          
+        </button>
         <button
           className="flex items-center gap-3 px-3 normal-case text-white font-semibold p-3 rounded-lg hover:bg-gray-300 hover:text-black cursor-pointer"
           onClick={handleSignout}
         >
           <svg
-            className="w-6 h-6 text-white dark:text-white"
-            aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 10"
-            style={{ transition: "color 0.3s ease" }}
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="size-6"
           >
             <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 5h12m0 0L9 1m4 4L9 9"
+              fill-rule="evenodd"
+              d="M16.5 3.75a1.5 1.5 0 0 1 1.5 1.5v13.5a1.5 1.5 0 0 1-1.5 1.5h-6a1.5 1.5 0 0 1-1.5-1.5V15a.75.75 0 0 0-1.5 0v3.75a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V5.25a3 3 0 0 0-3-3h-6a3 3 0 0 0-3 3V9A.75.75 0 1 0 9 9V5.25a1.5 1.5 0 0 1 1.5-1.5h6ZM5.78 8.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 0 0 0 1.06l3 3a.75.75 0 0 0 1.06-1.06l-1.72-1.72H15a.75.75 0 0 0 0-1.5H4.06l1.72-1.72a.75.75 0 0 0 0-1.06Z"
+              clip-rule="evenodd"
             />
           </svg>
+
           <span>Sign Out</span>
         </button>
         <img
@@ -125,7 +152,8 @@ function UserNavBar() {
           onClick={handleAvatarClick}
         />
       </div>
-      {showUserProfile && <UserProfile />} {/* Render UserProfile if showUserProfile is true */}
+      {showUserProfile && <UserProfile />}{" "}
+      {/* Render UserProfile if showUserProfile is true */}
     </nav>
   );
 }

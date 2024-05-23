@@ -27,10 +27,7 @@ function UserDashboard() {
           {/* Sample event cards */}
           <UserEnrollments />
         </div>
-        <div className="mt-12 grid gap-6 pl-4">
-        <h1 className="text-2xl font-bold pl-4">Calendar</h1>
-        <CalendarComponent/>
-        </div>
+        
         </div>
       </div>
     </div>
