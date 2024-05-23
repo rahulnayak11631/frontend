@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import GetEvents from "../components/GetEvents.jsx";
 import GetUnApprovedEventProviders from "../components/GetUnApprovedEventProviders.jsx";
 import GetEventProviders from "../components/GetEventProviders.jsx"
+import FooterComponent from "../components/FooterComponent.jsx";
 
 function AdminDashboard() {
     const [showEvents, setShowEvents] = useState(false);
@@ -38,6 +39,7 @@ function AdminDashboard() {
             </div>
             {showEvents && <GetEvents />}
             {showAllEventProviders && <GetEventProviders/>}
+            <FooterComponent/>
         </>
     );
 }

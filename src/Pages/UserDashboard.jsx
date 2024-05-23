@@ -4,6 +4,7 @@ import FilterEvents from "../components/FilterEvents.jsx";
 import UserEnrollments from "../components/UserEnrollments.jsx";
 import GetEventsClickable from "../components/GetEventsClickable.jsx";
 import CalendarComponent from "../components/CalendarComponent.jsx";
+import FooterComponent from "../components/FooterComponent.jsx";
 
 function UserDashboard() {
   return (
@@ -30,6 +31,7 @@ function UserDashboard() {
         
         </div>
       </div>
+      <FooterComponent/>
     </div>
   );
 }
