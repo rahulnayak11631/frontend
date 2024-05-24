@@ -78,7 +78,7 @@ function Signup() {
         Cookies.set("token", dataResponse.token);
         toast.success(dataResponse.message);
         setTimeout(() => {
-          navigate("/login");
+          navigate("/uploadEPDocuments");
         }, 2000);
       } else {
         toast.error(dataResponse.message);

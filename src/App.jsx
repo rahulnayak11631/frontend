@@ -22,7 +22,7 @@ import CancelEnroll from './components/CancelEnroll.jsx';
 import QRScannerPage from "./Pages/QRScannerPage.jsx";
 import UpdateEventPage from "./Pages/AttendeeListPage.jsx";
 import EventsCalendarPage from "./Pages/EventsCalendarPage.jsx";
-import Animate from "./Pages/Animate.jsx";
+import EPUploadDocumentsPage from "./Pages/EPUploadDocumentsPage.jsx";
 
 function App() {
   return (
@@ -46,7 +46,7 @@ function App() {
         <Route  path="/qrscanner" element ={<QRScannerPage/>} />
         <Route  path="/getAttendeeList" element ={<UpdateEventPage/>} />
         <Route  path="/eventsCalendar" element ={<EventsCalendarPage/>} />
-        <Route  path="/animate" element ={<Animate/>} />
+        <Route  path="/uploadEPDocuments" element ={<EPUploadDocumentsPage/>} />
 
 
 

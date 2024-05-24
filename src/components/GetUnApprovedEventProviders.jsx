@@ -5,7 +5,6 @@ import { ToastContainer, toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { apiConfig } from "../Constants/ApiConfig";
 
-
 function GetUnApprovedEventProviders() {
   const [eventProviders, setEventProviders] = useState([]);
   const [approveStatus, setApproveStatus] = useState(false);
@@ -16,6 +15,7 @@ function GetUnApprovedEventProviders() {
         const response = await axios.get(
           `${apiConfig.baseURL}/getunapprovedeventproviders`
         );
+        console.log("Fetched Event Providers:", response.data); // Debug log
         setEventProviders(response.data);
       } catch (error) {
         console.error("Error fetching Event Providers:", error);
@@ -38,15 +38,14 @@ function GetUnApprovedEventProviders() {
         `${apiConfig.baseURL}/getimagesforep`,
         { headers }
       );
-      const imageUrls = await response.data;
-      console.log(imageUrls.length);
+      const imageUrls = response.data;
+      console.log("Image URLs:", imageUrls); // Debug log
 
       if (imageUrls.length === 0) {
         toast.error("Event Provider has not uploaded any documents!");
       } else {
         navigate("/eventproviderdocuments", { state: { imageUrls } });
       }
-      // Navigate to EventProviderDocuments component and pass the imageUrls as props
     } catch (error) {
       console.error("Error fetching images:", error);
     }
@@ -62,13 +61,13 @@ function GetUnApprovedEventProviders() {
       };
 
       const response = await axios.post(
-        `${apiConfig.adminURL}//approveEventProvider`,
+        `${apiConfig.adminURL}/approveEventProvider`,
         {},
         { headers }
       );
-      const dataResponse = await response.data;
+      const dataResponse = response.data;
+      console.log("Approve Response:", dataResponse); // Debug log
       if (dataResponse.success) {
-        console.log(dataResponse.message);
         toast.success(dataResponse.message);
         setApproveStatus(true);
       } else {
@@ -89,13 +88,12 @@ function GetUnApprovedEventProviders() {
       };
 
       const response = await axios.post(
-        `${apiConfig.adminURL}//denyEventProvider`,
+        `${apiConfig.adminURL}/denyEventProvider`,
         {},
-        {
-          headers,
-        }
+        { headers }
       );
-      const dataResponse = await response.data;
+      const dataResponse = response.data;
+      console.log("Deny Response:", dataResponse); // Debug log
       if (dataResponse.success) {
         toast.success(dataResponse.message);
         setApproveStatus(true);
@@ -107,15 +105,21 @@ function GetUnApprovedEventProviders() {
     }
   };
 
+  const pendingProviders = eventProviders.filter(
+    (provider) => provider.verificationApproval === "Pending"
+  );
+
+  console.log("Pending Providers:", pendingProviders); // Debug log
+
   return (
     <>
       <div className="my-3 mx-3">
         <h1 className="text-2xl font-semibold mb-4">Pending Requests</h1>
-        {eventProviders.length === 0 ? (
+        {pendingProviders.length === 0 ? (
           <p className="text-gray-500">There are no pending requests.</p>
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {eventProviders.map((provider) => (
+            {pendingProviders.map((provider) => (
               <div
                 key={provider.id}
                 className="w-full p-4 bg-gradient-to-br from-gray-100 to-gray-200 border border-gray-300 rounded-lg shadow-md dark:from-gray-700 dark:to-gray-800 dark:border-gray-600"
@@ -140,11 +144,7 @@ function GetUnApprovedEventProviders() {
                     <span className="text-white font-bold">
                       Verification Approval:
                     </span>{" "}
-                    {provider.verificationApproval === "Approved"
-                      ? "Approved"
-                      : provider.verificationApproval === "Denied"
-                      ? "Denied "
-                      : "Pending"}
+                    {provider.verificationApproval}
                   </p>
                 </div>
                 <div className="flex flex-col space-y-4">
