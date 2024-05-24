@@ -4,10 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { apiConfig } from "../Constants/ApiConfig";
+import "../Styles/Loader.css";
+
 
 function GetUnApprovedEventProviders() {
   const [eventProviders, setEventProviders] = useState([]);
   const [approveStatus, setApproveStatus] = useState(false);
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     const fetchEventProviders = async () => {
@@ -52,6 +56,8 @@ function GetUnApprovedEventProviders() {
   };
 
   const handleApprove = async (organizerId) => {
+    setLoading(true); // Set loading to true when enrolling user
+
     try {
       Cookies.set("orgId", organizerId);
 
@@ -76,9 +82,14 @@ function GetUnApprovedEventProviders() {
     } catch (error) {
       toast.error(error.message);
     }
+    finally {
+      setLoading(false); // Reset loading after enrolling attempt is finished
+    }
   };
 
   const handleDeny = async (organizerId) => {
+    setLoading(true); // Set loading to true when enrolling user
+
     try {
       Cookies.set("orgId", organizerId);
 
@@ -103,17 +114,28 @@ function GetUnApprovedEventProviders() {
     } catch (error) {
       toast.error(error.message);
     }
+    finally {
+      setLoading(false); // Reset loading after enrolling attempt is finished
+    }
   };
 
   const pendingProviders = eventProviders.filter(
     (provider) => provider.verificationApproval === "Pending"
   );
 
-  console.log("Pending Providers:", pendingProviders); // Debug log
+  // console.log("Pending Providers:", pendingProviders); // Debug log
 
   return (
     <>
       <div className="my-3 mx-3">
+      {loading && (
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+            <div className="loader">
+              <span className="loader-text">Loading...</span>
+              <span className="load"></span>
+            </div>
+          </div>
+        )}
         <h1 className="text-2xl font-semibold mb-4">Pending Requests</h1>
         {pendingProviders.length === 0 ? (
           <p className="text-gray-500">There are no pending requests.</p>
