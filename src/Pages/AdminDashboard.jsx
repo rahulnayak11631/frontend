@@ -1,45 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "../components/Navbar";
 import GetEvents from "../components/GetEvents.jsx";
 import GetUnApprovedEventProviders from "../components/GetUnApprovedEventProviders.jsx";
-import GetEventProviders from "../components/GetEventProviders.jsx"
+import GetEventProviders from "../components/GetEventProviders.jsx";
+import { useNavigate } from "react-router-dom";
 
 function AdminDashboard() {
-    const [showEvents, setShowEvents] = useState(false);
-    const [showAllEventProviders, setShowAllEventProviders] = useState(false);
-    const [showPendingVerificationEventProviders, setShowPendingVerificationEventProviders] = useState(true);
+  const navigate = useNavigate();
 
-    const handleGetEventsClick = () => {
-        setShowEvents(true);
-        setShowAllEventProviders(false); // Hide all event providers list
-        setShowPendingVerificationEventProviders(false); // Hide pending verification event providers list
-    };
+  const handleGetEventProvidersClick = () => {
+    navigate("/adminDashboard/getEventProviders");
+  };
 
-    const handleGetEventProvidersClick = () => {
-        setShowAllEventProviders(true);
-        setShowEvents(false); // Hide events list
-        setShowPendingVerificationEventProviders(false); // Hide pending verification event providers list
-
-       
-
-    };
-
-    return (
-        <>
-            <Navbar
-                onGetEventsClick={handleGetEventsClick}
-                onGetEventProvidersClick={handleGetEventProvidersClick}
-            />
-            <div>
-                {
-                showPendingVerificationEventProviders && 
-                <GetUnApprovedEventProviders />
-                }
-            </div>
-            {showEvents && <GetEvents />}
-            {showAllEventProviders && <GetEventProviders/>}
-        </>
-    );
+  return (
+    <>
+      <Navbar
+        onGetEventProvidersClick={handleGetEventProvidersClick}
+      />
+      <GetUnApprovedEventProviders/>
+      <h1 className="text-2xl font-bold pl-4 mt-8">Events</h1>
+      <GetEvents/>
+    </>
+  );
 }
 
 export default AdminDashboard;

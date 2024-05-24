@@ -23,6 +23,8 @@ import UpdateEventPage from "./Pages/AttendeeListPage.jsx";
 import EventsCalendarPage from "./Pages/EventsCalendarPage.jsx";
 import RatingAndReview from "./components/RatingAndReview.jsx";
 import EPUploadDocumentsPage from "./Pages/EPUploadDocumentsPage.jsx";
+import GetReviewsForEp from "./Pages/GetReviewsForEp.jsx";
+import AdminDashboardGetEPPage from "./Pages/AdminDashboardGetEPPage.jsx"
 
 function App() {
   return (
@@ -48,6 +50,8 @@ function App() {
         <Route  path="/eventsCalendar" element ={<EventsCalendarPage/>} />
         <Route  path="/rateandreview/:eventId" element ={<RatingAndReview/>}/>
         <Route  path="/uploadEPDocuments" element ={<EPUploadDocumentsPage/>} />
+        <Route  path="/getReviews/:eventId" element ={<GetReviewsForEp/>} />
+        <Route  path="/adminDashboard/getEventProviders" element ={<AdminDashboardGetEPPage/>} />
 
 
 

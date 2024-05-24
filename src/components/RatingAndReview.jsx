@@ -12,7 +12,6 @@ function RatingAndReview() {
     const [rating, setRating] = useState(0);
     const [reviewText, setReviewText] = useState('');
     const [reviews, setReviews] = useState([]);
-    const [likedReviews, setLikedReviews] = useState([]);
     const { eventId } = useParams();  // Assume event ID is passed as a route parameter
 
     useEffect(() => {

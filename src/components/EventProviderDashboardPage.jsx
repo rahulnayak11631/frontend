@@ -5,7 +5,7 @@ import StatisticsCards from "./StatisticsCards";
 import EPNavbar from "./EPNavbar";
 import UpcomingEvents from "./UpcomingEvents";
 import UpdateEventModal from "./UpdateEventModal";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../Styles/Sidebar.css";
 import CreateEvent from "./CreateEvent";
 import axios from "axios";
@@ -15,6 +15,7 @@ import QRScanner from "./QRScanner";
 
 function EventProviderDashboardPage() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [first, setfirst] = useState(false);
@@ -23,6 +24,7 @@ function EventProviderDashboardPage() {
   const [attendeeList, setattendeeList] = useState(false);
   const [showQRCode, setshowQRCode] = useState(false);
   const [isOpenState, setisOpenState] = useState(false);
+
   useEffect(() => {
     // Fetch events from the API endpoint
     async function fetchEvents() {
@@ -76,6 +78,7 @@ function EventProviderDashboardPage() {
           throw new Error("Failed to fetch completed events");
         }
         const eventData = await response.json();
+        const event_id = eventData.eventId
         setCompletedEvents(eventData);
       } catch (error) {
         console.error(error);
@@ -85,12 +88,18 @@ function EventProviderDashboardPage() {
     fetchCompletedEvents();
     setfirst(false);
   }, [first]);
+
+  const handleReviews = (eventId) => {
+    navigate(`/getReviews/${eventId}`);
+  };
+
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleClick = (index) => {
     setSelectedItem(index === 0 ? null : index);
     // setSelectedItem(index);
   };
+
   const handleScanQR = () => {
     setshowQRCode(true);
   };
@@ -167,7 +176,7 @@ function EventProviderDashboardPage() {
             color: "#fbfbfb",
             borderRadius: "10px",
             bottom: "10px",
-            position:"fixed"
+            position: "fixed",
           }}
         >
           <div className="h-full pb-4">
@@ -248,13 +257,13 @@ function EventProviderDashboardPage() {
 
             {clickAdd && <CreateEvent Open={true} />}
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 justify-evenly justify-center text-center gap-x-8 gap-y-12 mt-5 ">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 justify-evenly  justify-center text-center gap-x-8 gap-y-12 mt-5 ">
               {events.map((event, index) => (
                 <a
                   key={index}
                   onClick={() => handleEventCardClick(event)}
-                  // href="#"
-                  className="flex flex-col justify-evenly bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-gray-300"
+                  
+                  className="flex flex-col justify-evenly bg-white rounded-lg shadow-md hover:shadow-lg transition-transform hover:scale-105 border border-gray-300 cursor-pointer"
                   style={{ width: "300px", height: "400px" }}
                 >
                   <img
@@ -321,7 +330,7 @@ function EventProviderDashboardPage() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {completedEvents.map((event, index) => (
-                    <tr key={index}>
+                    <tr className="transition-transform hover:scale-105" key={index} style={{cursor:"pointer"}} onClick={() => handleReviews(event.event.eventId)}>
                       <td className="px-6 py-4 whitespace-nowrap font-bold">
                         {event.event.title}
                       </td>

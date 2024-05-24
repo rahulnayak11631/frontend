@@ -123,7 +123,7 @@ function Otp() {
           console.log(response);
 
           if (response !== null) {
-            console.log("user id is " + response.id);
+            // console.log("user id is " + response.id);
             const id = response.id;
             Cookies.set("Id", id);
 

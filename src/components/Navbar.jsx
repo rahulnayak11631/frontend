@@ -9,7 +9,7 @@ function Navbar({ onGetEventsClick , onGetEventProvidersClick}) {
     const navigate=useNavigate();
 
     const navigateToHome = () => {
-        navigate("/");
+        navigate("/adminDashboard");
       };
 
     const handleSignout = () => {
@@ -22,8 +22,8 @@ function Navbar({ onGetEventsClick , onGetEventProvidersClick}) {
         <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <div className="flex items-center space-x-3 rtl:space-x-reverse cursor-pointer" onClick={navigateToHome}>
-                    <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
-                    <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">TechCommune</span>
+                    <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="TechCommune Logo" />
+                    <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Admin Dashboard</span>
                 </div>
                 <button
                     onClick={onGetEventsClick}
@@ -43,12 +43,12 @@ function Navbar({ onGetEventsClick , onGetEventProvidersClick}) {
                     <li>
                             <button onClick={onGetEventProvidersClick} className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Get Event Providers</button>
                         </li>
-                        <li>
+                        {/* <li>
                             <button onClick={onGetEventsClick} className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Get Events</button>
-                        </li>
-                        <li>
+                        </li> */}
+                        {/* <li>
                             <a href="/about" className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</a>
-                        </li>
+                        </li> */}
                         <li>
                             <a href="/login" className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" onClick={handleSignout}>Sign out</a>
                         </li>
