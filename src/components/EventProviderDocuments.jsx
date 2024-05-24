@@ -20,8 +20,8 @@ function EventProviderDocuments() {
 
   const imageStyles = {
     objectFit: "cover", // Ensure images fill the container
-    width: "100%", // Set fixed width for images
-    height: "700px", // Set fixed height for images (optional)
+    width: "70%", // Set fixed width for images
+    height: "65%", // Set fixed height for images (optional)
   };
 
   const indicatorStyles = {
