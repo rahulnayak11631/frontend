@@ -9,7 +9,6 @@ import HomePage from './Pages/HomePage.jsx';
 import AdminDashboard from './Pages/AdminDashboard.jsx';
 import Otp from './components/Otp.jsx';
 import AdminLoginPage from './Pages/AdminLoginPage.jsx';
-// import AdminSignUp from './components/AdminSignUp.jsx';
 import AdminSignUpPage from './Pages/AdminSignupPage.jsx';
 import EventProviderDashboard from './Pages/EventProviderDashboard.jsx';
 import UserDashboard from './Pages/UserDashboard.jsx';
@@ -22,6 +21,7 @@ import CancelEnroll from './components/CancelEnroll.jsx';
 import QRScannerPage from "./Pages/QRScannerPage.jsx";
 import UpdateEventPage from "./Pages/AttendeeListPage.jsx";
 import EventsCalendarPage from "./Pages/EventsCalendarPage.jsx";
+import EPUploadDocumentsPage from "./Pages/EPUploadDocumentsPage.jsx";
 
 function App() {
   return (
@@ -45,6 +45,7 @@ function App() {
         <Route  path="/qrscanner" element ={<QRScannerPage/>} />
         <Route  path="/getAttendeeList" element ={<UpdateEventPage/>} />
         <Route  path="/eventsCalendar" element ={<EventsCalendarPage/>} />
+        <Route  path="/uploadEPDocuments" element ={<EPUploadDocumentsPage/>} />
 
 
 
