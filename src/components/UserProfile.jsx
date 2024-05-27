@@ -30,7 +30,7 @@ function UserProfile() {
 
   return (
     <div className="container mx-auto">
-      <div className="max-w-md mx-auto bg-gray-100 shadow-md rounded-lg overflow-hidden my-8">
+      <div className="max-w-md mx-auto bg-gray-100 shadow-md rounded-lg overflow-hidden mt-8 mb-4">
         <div className="p-4 bg-gray-200">
           <h1 className="text-2xl font-semibold text-gray-800 mb-4">User Profile</h1>
           {userData && (

@@ -4,12 +4,20 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { apiConfig } from "../Constants/ApiConfig";
 import UpdateEventModal from "./UpdateEventModal";
+import UserProfile from "./UserProfile"; // Import the UserProfile component
+
 
 const EPNavbar = ({ setisOpenState }) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [showUserProfile, setShowUserProfile] = useState(false); // State to toggle user profile display
+
+
+  const handleAvatarClick = () => {
+    setShowUserProfile(!showUserProfile); // Toggle user profile display
+  };
 
   const handleSignout = () => {
     Cookies.remove("token");
@@ -50,7 +58,7 @@ const EPNavbar = ({ setisOpenState }) => {
   };
 
   return (
-    <nav className="relative z-10 px-1 py-1 flex justify-end items-center bg-gray-100 py-2 pb-4" style={{ width: "75%", marginLeft: "300px", marginTop: "12px" }}>
+    <nav className="relative z-10 px-1 py-1 flex justify-end items-center bg-gray-100 py-2 pb-2 flex items-center justify-between flex-wrap" style={{ width: "75%", marginLeft: "300px", marginTop: "12px" }}>
       <div className="text-gray-500 font-normal mr-auto">
         Dashboard /<span className="font-semibold text-gray-700"> Home</span>
       </div>
@@ -102,7 +110,17 @@ const EPNavbar = ({ setisOpenState }) => {
               ))}
             </div>
           </div>
+            <img
+          className="inline-block h-8 w-8 rounded-full ring-2 ring-white cursor-pointer"
+          src="https://www.kindpng.com/picc/m/105-1055656_account-user-profile-avatar-avatar-user-profile-icon.png"
+          alt="User Avatar"
+          onClick={handleAvatarClick}
+        />
         </form>
+        
+
+
+       
 
         <button
           className="flex items-center gap-3 px-3 normal-case text-gray-500 font-semibold p-3 rounded-lg hover:bg-gray-300 hover:text-black cursor-pointer"
@@ -116,6 +134,7 @@ const EPNavbar = ({ setisOpenState }) => {
         </button>
       </div>
 
+      {showUserProfile && <UserProfile />}{" "}
       {selectedEvent && (
         <UpdateEventModal event={selectedEvent} isOpen={true} first={setSelectedEvent} />
       )}

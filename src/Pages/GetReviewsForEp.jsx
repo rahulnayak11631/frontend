@@ -53,7 +53,7 @@ function GetReviewsForEp() {
                           key={i}
                           className={`w-6 h-6 ${
                             i < review.rating
-                              ? "text-yellow-300"
+                              ? "text-orange-500"
                               : "text-gray-300"
                           }`}
                           aria-hidden="true"

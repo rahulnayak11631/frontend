@@ -107,7 +107,7 @@ function RatingAndReview() {
                         {[1, 2, 3, 4, 5].map((i) => (
                             <svg
                                 key={i}
-                                className={`w-10 h-10 mx-2 cursor-pointer ${i <= rating ? 'text-yellow-300' : 'text-gray-300'}`}
+                                className={`w-10 h-10 mx-2 cursor-pointer ${i <= rating ? 'text-orange-500' : 'text-gray-300'}`}
                                 aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor"
@@ -143,7 +143,7 @@ function RatingAndReview() {
                                         {[...Array(5)].map((_, i) => (
                                             <svg
                                                 key={i}
-                                                className={`w-6 h-6 ${i < review.rating ? 'text-yellow-300' : 'text-gray-300'}`}
+                                                className={`w-6 h-6 ${i < review.rating ? 'text-orange-500' : 'text-gray-300'}`}
                                                 aria-hidden="true"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 fill="currentColor"
