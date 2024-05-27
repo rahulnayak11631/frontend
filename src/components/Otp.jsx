@@ -153,41 +153,31 @@ function Otp() {
   };
 
   const resendOtp = async (event) => {
-    Cookies.set("role", "admin");
-    const email = Cookies.get("email");
-    const password = Cookies.get("password");
+    
 
     event.preventDefault();
 
-    console.log(Cookies.get("role"));
-    console.log(email);
-    console.log(password);
 
     const headers = {
       "Content-Type": "application/json",
-      role: Cookies.get("role"),
+      "email": Cookies.get("email")
     };
 
-    if (Cookies.get("role") === "admin") {
-      const response = await axios.post(
-        `${apiConfig.baseURL}/login`,
-        {
-          email: email,
-          password: password,
-        },
+      const response = await axios.get(
+        `${apiConfig.baseURL}/resendOtp`,
+     
         { headers }
       );
-
+console.log(response)
       const dataResponse = await response.data;
       if (dataResponse.success) {
         Cookies.set("token", dataResponse.token);
-        Cookies.set("email", email);
+        Cookies.set("email", Cookies.get("email"));
         toast.success(dataResponse.message);
 
         navigate("/otp");
       }
       console.log(dataResponse);
-    }
   };
 
   if (loading) {

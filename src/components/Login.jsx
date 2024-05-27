@@ -229,7 +229,7 @@ function Login() {
                   > */}
                   {/* {showPassword ? "Hide" : "Show"} */}
                   {/* </button> */}
-                  <div className="flex items-start mt-4">
+                  <div className="flex items-start mt-4 cursor-pointer">
                     <a
                       className="ms-auto text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
                       onClick={() => navigate("/emailforgotpassword")}
