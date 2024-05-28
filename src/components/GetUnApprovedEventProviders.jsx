@@ -19,7 +19,7 @@ function GetUnApprovedEventProviders() {
         const response = await axios.get(
           `${apiConfig.baseURL}/getunapprovedeventproviders`
         );
-        console.log("Fetched Event Providers:", response.data); // Debug log
+        // console.log("Fetched Event Providers:", response.data); // Debug log
         setEventProviders(response.data);
       } catch (error) {
         console.error("Error fetching Event Providers:", error);
@@ -43,7 +43,7 @@ function GetUnApprovedEventProviders() {
         { headers }
       );
       const imageUrls = response.data;
-      console.log("Image URLs:", imageUrls); // Debug log
+      // console.log("Image URLs:", imageUrls); // Debug log
 
       if (imageUrls.length === 0) {
         toast.error("Event Provider has not uploaded any documents!");
@@ -72,7 +72,7 @@ function GetUnApprovedEventProviders() {
         { headers }
       );
       const dataResponse = response.data;
-      console.log("Approve Response:", dataResponse); // Debug log
+      // console.log("Approve Response:", dataResponse); // Debug log
       if (dataResponse.success) {
         toast.success(dataResponse.message);
         setApproveStatus(true);
@@ -104,7 +104,7 @@ function GetUnApprovedEventProviders() {
         { headers }
       );
       const dataResponse = response.data;
-      console.log("Deny Response:", dataResponse); // Debug log
+      // console.log("Deny Response:", dataResponse); // Debug log
       if (dataResponse.success) {
         toast.success(dataResponse.message);
         setApproveStatus(true);

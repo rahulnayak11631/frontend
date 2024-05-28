@@ -38,7 +38,7 @@ function CreateEvent({ Open }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
 
     try {
       const response = await axios.post(
@@ -55,7 +55,7 @@ function CreateEvent({ Open }) {
 
       //   const dataResponse = response.data;
       if (!response.data.success) {
-        console.log(response.data.message)
+        // console.log(response.data.message)
         toast.error(response.data.message);
 
         // throw new Error("Failed to update event details");
@@ -64,7 +64,7 @@ function CreateEvent({ Open }) {
         setcoverImageState(true);
       }
 
-      console.log(response.data); // Assuming the response contains data
+      // console.log(response.data); // Assuming the response contains data
       // Add any further logic you need after the API call here
     } catch (error) {
       console.error("Error adding event:", error);

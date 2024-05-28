@@ -22,7 +22,7 @@ function AdminSignUp() {
 
 
       const handleSubmit = async (event) => {
-        console.log(Cookies.set("role","admin"));
+        // console.log(Cookies.set("role","admin"));
         event.preventDefault();
         // Prepare data to be submitted
         const data = {
@@ -30,8 +30,8 @@ function AdminSignUp() {
           role: Cookies.get("role"), // Include the selected role in the data
         };
         // Example: Send data to backend or handle as needed
-        console.log("Form data:", data);
-        console.log(Cookies.get("role"));
+        // console.log("Form data:", data);
+        // console.log(Cookies.get("role"));
     
         const headers={
           "role":Cookies.get("role")
@@ -55,13 +55,13 @@ function AdminSignUp() {
           }
           else{
                 toast.error(dataResponse.message)
-              console.log(dataResponse)
+              // console.log(dataResponse)
           }
         }
 
     
         
-          console.log(dataResponse)
+          // console.log(dataResponse)
         }
     
       

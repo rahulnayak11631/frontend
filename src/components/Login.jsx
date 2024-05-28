@@ -25,6 +25,8 @@ function Login() {
 
   useEffect(() => {
     const storedRole = Cookies.get("role");
+    // Cookies.set("ResetPassword",false)
+
     if (!storedRole) {
       Cookies.set("role", defaultRole);
     } else {
@@ -85,8 +87,9 @@ function Login() {
       } else {
         toast.error(dataResponse.message);
       }
-      console.log(dataResponse);
+      // console.log(dataResponse);
     } catch (error) {
+      // console.log(error)
       toast.error(error.message);
     } finally {
       setLoading(false); // Set loading to false after response
@@ -176,6 +179,7 @@ function Login() {
                     placeholder="name@company.com"
                     required
                     onChange={handleChange}
+                    
                   />
                 </div>
                 <div

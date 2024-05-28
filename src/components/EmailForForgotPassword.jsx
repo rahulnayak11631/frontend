@@ -19,7 +19,7 @@ function EmailForForgotPassword() {
   const handleSubmit = async (event) => {
     setLoading(true); // Set loading to true when form is submitted
 
-    console.log(Cookies.get("role"));
+    // console.log(Cookies.get("role"));
     event.preventDefault();
     // Prepare data to be submitted
     const data = {
@@ -27,8 +27,8 @@ function EmailForForgotPassword() {
       role: Cookies.get("role"), // Include the selected role in the data
     };
     // Example: Send data to backend or handle as needed
-    console.log("Form data:", data);
-    console.log(Cookies.get("role"));
+    // console.log("Form data:", data);
+    // console.log(Cookies.get("role"));
 
     const headers = {
       role: Cookies.get("role"),
@@ -54,7 +54,7 @@ function EmailForForgotPassword() {
       } else {
         toast.error(dataResponse.message);
       }
-      console.log(dataResponse);
+      // console.log(dataResponse);
     } catch (error) {
       toast.error(error.message);
     }

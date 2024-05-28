@@ -57,7 +57,7 @@ function EventProviderDashboardPage() {
     // document.getElementById("eventModal").style.display = "";
     setisOpenState(true);
     Cookies.set("CloseIcon", true);
-    console.log(event);
+    // console.log(event);
     Cookies.set("eventId", event.eventId);
   };
 
