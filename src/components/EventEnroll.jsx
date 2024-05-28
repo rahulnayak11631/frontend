@@ -74,14 +74,14 @@ function EventEnroll() {
         const { avgRating, ratingCount } = response.data;
         setAverageRating(avgRating);
         setNumRatings(ratingCount);
-        console.log(avgRating, ratingCount); // Log immediately after setting state
+        // console.log(avgRating, ratingCount); // Log immediately after setting state
       } catch (error) {
         console.error("Error fetching event rating summary:", error);
       }
     };
 
-    console.log("Average Rating:", averageRating);
-    console.log("Number of Ratings:", numRatings);
+    // console.log("Average Rating:", averageRating);
+    // console.log("Number of Ratings:", numRatings);
     fetchEvent();
     fetchEventImage();
   }, [eventId, averageRating, numRatings]);

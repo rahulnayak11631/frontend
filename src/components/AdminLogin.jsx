@@ -34,8 +34,8 @@ function AdminLogin() {
       ...formData,
       role: Cookies.get("role"),
     };
-    console.log("Form data:", data);
-    console.log(Cookies.get("role"));
+    // console.log("Form data:", data);
+    // console.log(Cookies.get("role"));
 
     const headers = {
       "Content-Type": "application/json",
@@ -66,7 +66,7 @@ function AdminLogin() {
           toast.error(dataResponse.message);
 
         }
-        console.log(dataResponse);
+        // console.log(dataResponse);
       } catch (error) {
         // console.error(error);
         toast.error(error.message);
@@ -161,7 +161,7 @@ function AdminLogin() {
                   <a
                     href="#"
                     className="ms-auto text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
-                    onClick={() => navigate("/emailforgotpassword")}
+                    onClick={() => {navigate("/emailforgotpassword"),Cookies.set("role","admin")}}
 
                   >
                     Forgot Password?

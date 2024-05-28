@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-// import AdminDashboard from "../Pages/AdminDashboard.jsx";
-
 import { useNavigate } from "react-router-dom";
 import { apiConfig } from "../Constants/ApiConfig";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,7 +11,8 @@ function Otp() {
   const [loading, setLoading] = useState(false);
   const [inputs, setInputs] = useState(Array(6).fill(""));
   const [isFilled, setIsFilled] = useState(false);
-  // const [ResetPassword, setResetPassword] = useState(false);
+  const [resendEnabled, setResendEnabled] = useState(false);
+  const [countdown, setCountdown] = useState(60); // Initial countdown set to 60 seconds
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,20 +20,26 @@ function Otp() {
     setIsFilled(filled);
   }, [inputs]);
 
-  const handleChange = (e, index) => {
-    if (inputs.length === 0) {
-      return;
+  // Countdown timer effect
+  useEffect(() => {
+    setResendEnabled(false); // Disable resend button initially
+    if (countdown > 0) {
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setResendEnabled(true);
     }
+  }, [countdown]);
+
+  const handleChange = (e, index) => {
     const value = e.target.value;
-    if (/^\d$/.test(value) && index < 5) {
+    if (/^\d$/.test(value)) {
       const newInputs = [...inputs];
       newInputs[index] = value;
       setInputs(newInputs);
-      document.getElementById(`otp-input-${index + 1}`).focus();
-    } else if (/^\d$/.test(value) && index === 5) {
-      const newInputs = [...inputs];
-      newInputs[index] = value;
-      setInputs(newInputs);
+      if (index < 5) {
+        document.getElementById(`otp-input-${index + 1}`).focus();
+      }
     }
   };
 
@@ -51,22 +56,21 @@ function Otp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const role = Cookies.get("role");
     const email = Cookies.get("email");
     const otp = inputs.join("");
-    setLoading(true); // Set loading to true when form is submitted
+    setLoading(true);
 
     const headers = {
       role: role,
       email: email,
       otpforTwoFAFromUser: otp,
-      otp: otp, //otp for reset password
+      otp: otp,
     };
 
     const ResetPassword = Cookies.get("ResetPassword");
-
-    if (ResetPassword === "true") {
+    // console.log(ResetPassword)
+    if (ResetPassword==="true") {
       try {
         const response = await axios.post(
           `${apiConfig.baseURL}/verifyOtpforforgotpassword`,
@@ -74,11 +78,9 @@ function Otp() {
           { headers }
         );
         const dataResponse = await response.data;
-        console.log(dataResponse);
         if (dataResponse.success) {
           setLoading(false);
           toast.success(dataResponse.message);
-
           setTimeout(() => {
             navigate("/resetPassword");
           }, 2000);
@@ -89,9 +91,12 @@ function Otp() {
       } catch (error) {
         toast.error(error.message);
       } finally {
-        Cookies.remove("ResetPassword");
+
+        // Cookies.set("ResetPassword","false");
+        Cookies.remove("ResetPassword")
       }
-    } else {
+    } else 
+    {
       setLoading(false);
       try {
         const response = await axios.post(
@@ -102,12 +107,9 @@ function Otp() {
         const dataResponse = response.data;
 
         if (dataResponse.success) {
-          console.log(dataResponse);
           toast.success(dataResponse.message);
-
           Cookies.set("token", dataResponse.token);
 
-          // Fetch user details by token
           const userDetailsResponse = await axios.get(
             `${apiConfig.baseURL}/getuserdetailsbytoken`,
             {
@@ -120,10 +122,7 @@ function Otp() {
 
           const response = await userDetailsResponse.data;
 
-          console.log(response);
-
           if (response !== null) {
-            // console.log("user id is " + response.id);
             const id = response.id;
             Cookies.set("Id", id);
 
@@ -153,47 +152,48 @@ function Otp() {
   };
 
   const resendOtp = async (event) => {
-    
-
     event.preventDefault();
+    if (!resendEnabled) return;
 
+    setResendEnabled(false);
+    setCountdown(60);
 
-    const headers = {
-      "Content-Type": "application/json",
-      "email": Cookies.get("email")
-    };
-
+    try {
       const response = await axios.get(
         `${apiConfig.baseURL}/resendOtp`,
-     
-        { headers }
+        {
+          headers: {
+            "Content-Type": "application/json",
+            email: Cookies.get("email"),
+            role: Cookies.get("role")
+          }
+        }
       );
-console.log(response)
       const dataResponse = await response.data;
       if (dataResponse.success) {
         Cookies.set("token", dataResponse.token);
-        Cookies.set("email", Cookies.get("email"));
         toast.success(dataResponse.message);
-
-        navigate("/otp");
+      } else {
+        toast.error(dataResponse.message);
       }
-      console.log(dataResponse);
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   if (loading) {
     return (
-      <>
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col justify-center items-center">
-          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-            <div className="loader">
-              <span className="loader-text">loading...</span>
-              <span className="load"></span>
-            </div>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col justify-center items-center">
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+          <div className="loader">
+            <span className="loader-text">loading...</span>
+            <span className="load"></span>
           </div>
         </div>
-      </>
+      </div>
     );
   }
+
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -246,13 +246,15 @@ console.log(response)
             </div>
           </form>
           <div className="text-sm text-slate-500 mt-4">
-            Didnt receive code?{" "}
+            Didn’t receive code?{" "}
             <a
-              className="font-medium text-indigo-500 hover:text-indigo-600"
+              className={`font-medium ${
+                resendEnabled ? "text-indigo-500 hover:text-indigo-600" : "text-gray-400 cursor-not-allowed"
+              }`}
               href="#0"
               onClick={resendOtp}
             >
-              Resend
+              Resend{resendEnabled ? "" : ` (${countdown}s)`}
             </a>
           </div>
         </div>

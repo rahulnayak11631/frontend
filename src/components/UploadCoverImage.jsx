@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { apiConfig } from "../Constants/ApiConfig";
 
 const UploadCoverImage = ({ event, isOpen, first }) => {
-    console.log(event);
+    // console.log(event);
   
     const navigate = useNavigate();
     const [formData, setFormData] = useState({

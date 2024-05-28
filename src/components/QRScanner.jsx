@@ -40,7 +40,7 @@ const QRScanner = () => {
                 if (code) {
                     handleResult(code.data);
                 } else {
-                    console.log('No QR code found.');
+                    // console.log('No QR code found.');
                 }
             };
 
@@ -55,8 +55,8 @@ const QRScanner = () => {
 
         try {
             const encodedData = decodedUrl.split('=')[1] + "="; // Include the second '=' symbol
-            console.log(encodedData)
-            console.log(decodedUrl)
+            // console.log(encodedData)
+            // console.log(decodedUrl)
             const response = await axios.get(decodedUrl, {
                 headers: {
                     token: Cookies.get("token")
@@ -66,16 +66,16 @@ const QRScanner = () => {
                 //     encryptedData: encodedData
                 // }
             });
-            console.log(response)
+            // console.log(response)
             if(response){
-                console.log("ananda")
+                // console.log("ananda")
                 toast.success(response.data)
 
             }
             else{
                 toast.error(response.data.message)
             }
-            console.log(response);
+            // console.log(response);
         } catch (error) {
             toast.error(error.message);
             console.error('Error fetching data:', error);

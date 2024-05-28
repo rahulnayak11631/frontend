@@ -36,7 +36,7 @@ function GetEventProviders() {
         { headers }
       );
       const imageUrls = await response.data
-      console.log(imageUrls.length)
+      // console.log(imageUrls.length)
 
       if(imageUrls.length===0)
         {

@@ -145,10 +145,10 @@ function EventEnroll() {
     };
     const fetchEventOrganizations = async (event) => {
       try {
-        console.log(event);
+        // console.log(event);
         handleOrganizerName(event);
         setOrganizationNames(event.eventId);
-        console.log(organizationNames);
+        // console.log(organizationNames);
       } catch (error) {
         console.error("Error fetching event organizations:", error);
       }
@@ -172,7 +172,7 @@ function EventEnroll() {
       );
 
       const organizerName = response.data.orgName;
-      console.log("organizer name ", organizerName);
+      // console.log("organizer name ", organizerName);
       setorgNameLatest(organizerName);
       return organizerName;
     } catch (error) {
@@ -193,7 +193,7 @@ function EventEnroll() {
           }
         }
       );
-      console.log(response.data); // Handle successful enrollment
+      // console.log(response.data); // Handle successful enrollment
       // Redirect to some success page or show a success message
       toast.success(response.data.message);
     } catch (error) {
