@@ -48,8 +48,6 @@
 //     fetchEventImage();
 //   }, [eventId]); // Fetch event details and image when eventId changes
 
- 
-
 //   return (
 //   <>
 //   <nav className="flex items-center justify-between flex-wrap bg-purple-800 p-6">
@@ -189,8 +187,8 @@ function EventEnroll() {
         {
           headers: {
             token: Cookies.get("token"),
-            eventId: eventId
-          }
+            eventId: eventId,
+          },
         }
       );
       // console.log(response.data); // Handle successful enrollment
@@ -284,9 +282,7 @@ function EventEnroll() {
                     />
                   </svg>
 
-                  <p
-                    className={`text-l font-medium text-gray-600 ml-4`} 
-                  >
+                  <p className={`text-l font-medium text-gray-600 ml-4`}>
                     {orgNameLatest && orgNameLatest}
                   </p>
                 </div>
@@ -376,9 +372,8 @@ function EventEnroll() {
                       clipRule="evenodd"
                     />
                   </svg>
-
                   <p className="text-l font-medium text-gray-600">
-                    Price: Rs {event.price}
+                    {event.price === 0 ? "Free" : `Price: Rs ${event.price}`}
                   </p>
                 </div>
                 <div className="flex justify-center mt-8">

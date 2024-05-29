@@ -96,6 +96,9 @@ function UserEnrollments() {
 
   return (
     <div className="overflow-x-auto">
+         {eventDetails.length === 0 ? (
+        <p className="text-center mt-4 p-4 text-l font-medium border border-pink-400 bg-pink-200  text-gray-700 rounded-lg">You have not enrolled to any event.</p>
+      ) : (
       <table className="min-w-full bg-white border border-black-900 rounded-lg overflow-hidden">
         <thead className="bg-gray-200">
           <tr>
@@ -122,7 +125,7 @@ function UserEnrollments() {
             );
           })}
         </tbody>
-      </table>
+      </table>)}
     </div>
   );
 }
