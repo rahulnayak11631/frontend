@@ -74,13 +74,25 @@ function Signup() {
       }
 
       const dataResponse = response.data;
-      if (dataResponse.success) {
+      if (dataResponse.success && Cookies.get("role") === "eventprovider") {
         Cookies.set("token", dataResponse.token);
         toast.success(dataResponse.message);
         setTimeout(() => {
           navigate("/uploadEPDocuments");
         }, 2000);
-      } else {
+      
+      }
+      
+      else if(dataResponse.success && Cookies.get("role") === "user")
+        {
+          Cookies.set("token", dataResponse.token);
+          toast.success(dataResponse.message);
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
+        }
+      
+      else {
         toast.error(dataResponse.message);
       }
     } catch (error) {
