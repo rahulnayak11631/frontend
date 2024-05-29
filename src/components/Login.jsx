@@ -89,7 +89,8 @@ function Login() {
       }
       // console.log(dataResponse);
     } catch (error) {
-      // console.log(error)
+      console.log(error)
+
       toast.error(error.message);
     } finally {
       setLoading(false); // Set loading to false after response
