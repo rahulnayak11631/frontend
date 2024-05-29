@@ -5,7 +5,6 @@ import Cookies from "js-cookie";
 import UploadCoverImage from "./UploadCoverImage";
 import { apiConfig } from "../Constants/ApiConfig";
 
-
 function CreateEvent({ Open }) {
   const [formData, setFormData] = useState({
     title: "",
@@ -38,8 +37,6 @@ function CreateEvent({ Open }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(formData);
-
     try {
       const response = await axios.post(
         `${apiConfig.baseURL}/addevent`,
@@ -52,25 +49,20 @@ function CreateEvent({ Open }) {
           },
         }
       );
+      console.log(response.data);
 
-      //   const dataResponse = response.data;
-      if (!response.data.success) {
-        // console.log(response.data.message)
-        toast.error(response.data.message);
-
-        // throw new Error("Failed to update event details");
-      } else {
-        toast.success("Event Added ");
+      if (response.data.success) {
+        toast.success(response.data.message);
         setcoverImageState(true);
+      } else {
+        toast.error(response.data.message);
       }
-
-      // console.log(response.data); // Assuming the response contains data
-      // Add any further logic you need after the API call here
     } catch (error) {
       console.error("Error adding event:", error);
-      // Handle the error as needed
+      toast.error("An error occurred while adding the event.");
     }
   };
+
   return (
     <>
       <div
@@ -80,20 +72,34 @@ function CreateEvent({ Open }) {
         } z-50 bg-opacity-50 bg-gray-900`}
       >
         <div className="flex justify-center items-center h-screen ">
-       
           <form
             className="p-4 md:p-5 rounded-lg shadow-md "
-            onSubmit={handleSubmit}
-            style={{ maxWidth: "800px", margin: "0 auto", width: "100%" ,backgroundColor:"#d1d5db"}}
+            style={{
+              maxWidth: "800px",
+              margin: "0 auto",
+              width: "100%",
+              backgroundColor: "#d1d5db",
+            }}
           >
-        <button className="text-black " style={{marginLeft:"95%"}}  onClick={() =>
+            <button
+              type="button" // explicitly set type to "button"
+              className="text-black"
+              style={{ marginLeft: "95%" }}
+              onClick={() =>
                 (document.getElementById("CreateEvent").style.display = "none")
-              }> <img
-              src="src/assets/XCircle.svg"
-              className="h-8 w-8  w-full "
-              alt="close"
-            /></button>
-            <div className="grid gap-4 grid-cols-1 pt-5 md:grid-cols-2" style={{marginTop:"-3%"}}>
+              }
+            >
+              <img
+                src="src/assets/XCircle.svg"
+                className="h-8 w-8 w-full"
+                alt="close"
+              />
+            </button>
+
+            <div
+              className="grid gap-4 grid-cols-1 pt-5 md:grid-cols-2"
+              style={{ marginTop: "-3%" }}
+            >
               <div className="col-span-full">
                 <label
                   htmlFor="description"
@@ -260,6 +266,7 @@ function CreateEvent({ Open }) {
             <div className="flex justify-center">
               <button
                 type="submit"
+                onClick={handleSubmit}
                 className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm mt-4 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 <svg
